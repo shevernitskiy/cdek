@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "start": "deno test -A ./tests/sandbox.ts",
+    "dev": "deno test -A --watch ./tests/sandbox.ts"
+  },
+  "fmt": {
+    "options": {
+      "lineWidth": 140
+    }
+  }
+}
