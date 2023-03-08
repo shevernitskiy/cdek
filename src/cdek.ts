@@ -1,4 +1,5 @@
 import { ApiError } from "./errors/api.ts";
+import { AuthError } from "./errors/auth.ts";
 import { ApiRequest, ApiResponse } from "./types/api.ts";
 import { RequestInit } from "./types/lib.ts";
 
@@ -27,6 +28,10 @@ export class Cdek {
           "client_secret": this.password,
         }),
       });
+
+      if (res.ok === false) {
+        throw new AuthError(await res.text(), { cause: `${res.status} ${res.statusText}` });
+      }
 
       this.token = await res.json();
       this.token_expire = Date.now() + 3600 * 1000;
