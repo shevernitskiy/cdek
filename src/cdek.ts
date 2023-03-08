@@ -71,13 +71,7 @@ export class Cdek {
 
   // deno-lint-ignore no-explicit-any
   private params(query: Record<string, any>): URLSearchParams {
-    const out: string[][] = [];
-
-    for (const item of Object.entries(query)) {
-      out.push([item[0], item[1].toString()]);
-    }
-
-    return new URLSearchParams(out);
+    return new URLSearchParams(Object.entries(query).map<string[]>((item) => [item[0], item[1].toString()]));
   }
 
   public getRegions(params?: ApiRequest.Regions): Promise<ApiResponse.Regions[]> {
