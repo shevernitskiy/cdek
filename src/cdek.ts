@@ -34,7 +34,7 @@ export class Cdek {
       }
 
       this.token = await res.json();
-      this.token_expire = Date.now() + 3600 * 1000;
+      this.token_expire = Date.now() + (this.token?.expires_in ?? 3600) * 1000;
     } catch (err) {
       throw err;
     }
