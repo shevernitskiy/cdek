@@ -1,11 +1,13 @@
+import { EventEmitter } from "../deps.ts";
+
 import { ApiError } from "./errors/api.ts";
 import { AuthError } from "./errors/auth.ts";
-import { ApiRequest, ApiResponse } from "./types/api.ts";
+import { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
 import { RequestInit } from "./types/lib.ts";
 
 const URL_BASE = "https://api.edu.cdek.ru/v2" as const;
 
-export class Cdek {
+export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
   public token?: ApiResponse.OAuth;
   public token_expire?: number;
 
@@ -13,7 +15,9 @@ export class Cdek {
     private readonly account: string,
     private readonly password: string,
     private readonly grant_type = "client_credentials",
-  ) {}
+  ) {
+    super();
+  }
 
   private async auth(): Promise<void> {
     try {
@@ -72,6 +76,29 @@ export class Cdek {
   // deno-lint-ignore no-explicit-any
   private params(query: Record<string, any>): URLSearchParams {
     return new URLSearchParams(Object.entries(query).map<string[]>((item) => [item[0], item[1].toString()]));
+  }
+
+  public webhookHandler(): (request: Request) => Promise<Response> {
+    return async (request: Request) => {
+      const data = await request.json() as ApiWebhook.UpdateBase;
+
+      switch (data.type) {
+        case "ORDER_STATUS":
+          this.emit("ORDER_STATUS", data as ApiWebhook.UpdateOrderStatus);
+          break;
+        case "PRINT_FORM":
+          this.emit("PRINT_FORM", data as ApiWebhook.UpdatePrintForm);
+          break;
+        case "DOWNLOAD_PHOTO":
+          this.emit("DOWNLOAD_PHOTO", data as ApiWebhook.UpdateDownloadPhoto);
+          break;
+        case "PREALERT_CLOSED":
+          this.emit("PREALERT_CLOSED", data as ApiWebhook.UpdatePrealertClosed);
+          break;
+      }
+
+      return new Response("OK");
+    };
   }
 
   public getRegions(params?: ApiRequest.Regions): Promise<ApiResponse.Regions[]> {
