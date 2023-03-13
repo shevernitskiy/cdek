@@ -2,8 +2,8 @@ import { EventEmitter } from "../deps.ts";
 
 import { ApiError } from "./errors/api.ts";
 import { AuthError } from "./errors/auth.ts";
-import { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
-import { RequestInit } from "./types/lib.ts";
+import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
+import type { RequestInit } from "./types/lib.ts";
 
 const URL_BASE = "https://api.edu.cdek.ru/v2" as const;
 
