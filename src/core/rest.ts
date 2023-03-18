@@ -1,8 +1,9 @@
 import { ApiError } from "../errors/api.ts";
 import { AuthError } from "../errors/auth.ts";
 import type { ApiResponse } from "../types/api.ts";
-import type { RequestInit } from "../types/lib.ts";
+import type { RequestInit, RequestMethod } from "../types/lib.ts";
 
+//TODO: pass as optionable arg
 const URL_BASE = "https://api.edu.cdek.ru/v2" as const;
 
 export abstract class REST {
@@ -45,7 +46,7 @@ export abstract class REST {
     }
   }
 
-  protected async request<T>(init: RequestInit): Promise<T> {
+  protected async request<T>(init: RequestInit & { method: RequestMethod }): Promise<T> {
     try {
       if (this.token_expire === undefined || Date.now() > this.token_expire) {
         await this.auth();
@@ -72,6 +73,26 @@ export abstract class REST {
     } catch (err) {
       throw err;
     }
+  }
+
+  protected get<T>(init: RequestInit): Promise<T> {
+    return this.request<T>({ ...init, method: "GET" });
+  }
+
+  protected post<T>(init: RequestInit): Promise<T> {
+    return this.request<T>({ ...init, method: "POST" });
+  }
+
+  protected put<T>(init: RequestInit): Promise<T> {
+    return this.request<T>({ ...init, method: "PUT" });
+  }
+
+  protected patch<T>(init: RequestInit): Promise<T> {
+    return this.request<T>({ ...init, method: "PATCH" });
+  }
+
+  protected delete<T>(init: RequestInit): Promise<T> {
+    return this.request<T>({ ...init, method: "DELETE" });
   }
 
   // deno-lint-ignore no-explicit-any
