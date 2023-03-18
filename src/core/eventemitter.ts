@@ -8,17 +8,17 @@ type Entry<E, K extends keyof E> = {
 const isNullish = (value: unknown): value is null | undefined => value === null || value === undefined;
 
 export class EventEmitter<E extends Record<string, unknown[]>> {
-  protected listeners: {
+  private listeners: {
     [K in keyof E]?: Array<{
       once: boolean;
       cb: (...args: E[K]) => void;
     }>;
   } = {};
-  protected globalWriters: WritableStreamDefaultWriter<Entry<E, keyof E>>[] = [];
-  protected onWriters: {
+  private globalWriters: WritableStreamDefaultWriter<Entry<E, keyof E>>[] = [];
+  private onWriters: {
     [K in keyof E]?: WritableStreamDefaultWriter<E[K]>[];
   } = {};
-  protected limit: number;
+  private limit: number;
 
   /**
    * @param maxListenersPerEvent - if set to 0, no limit is applied. defaults to 10
