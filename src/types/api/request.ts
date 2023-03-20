@@ -13,3 +13,8 @@ export type Regions = {
   page?: number;
   lang?: string;
 };
+
+export type addWebhooks = {
+  url: string;
+  type: string;
+};
