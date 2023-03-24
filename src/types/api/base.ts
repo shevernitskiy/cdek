@@ -1,5 +1,3 @@
-import { AddWebhookResponceState, AddWebhookResponceType } from "./webhook.ts";
-
 export type Error = {
   code: string;
   message: string;
