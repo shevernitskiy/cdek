@@ -64,7 +64,7 @@ export abstract class REST {
       });
 
       if (res.ok === false) {
-        throw new ApiError(await res.text(), { cause: `${res.status} ${res.statusText}` });
+        throw new ApiError(await res.text(), { cause: `${res.status} ${res.statusText}, ${res.url}` });
       }
 
       const data = await res.json();
