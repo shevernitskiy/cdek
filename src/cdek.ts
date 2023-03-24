@@ -45,7 +45,7 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
   }
 
   addWebhook(params?: ApiRequest.addWebhooks): Promise<ApiResponse.addWebhooks[]> {
-    return this.get<ApiResponse.Regions[]>({
+    return this.get<ApiResponse.addWebhooks[]>({
       url: "/webhooks",
       query: params,
     });
