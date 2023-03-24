@@ -3,6 +3,11 @@ export type Error = {
   message: string;
 };
 
+export type Warning = {
+  code: string;
+  message: string;
+};
+
 export type Money = {
   value: number;
   vat_sum: number;
@@ -28,4 +33,13 @@ export type Location = {
   city?: string;
   kladr_code?: string;
   address: string;
+};
+
+export type Request = {
+  request_uuid?: string;
+  type: "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";
+  date_time: string;
+  state: "ACCEPTED" | "WAITING" | "SUCCESSFUL" | "INVALID";
+  errors?: Error[];
+  warnings?: Warning[];
 };
