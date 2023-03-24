@@ -1,3 +1,5 @@
+import type { UpdateType } from "./webhook.ts";
+
 export type OAuth = {
   grant_type: "client_credentials";
   client_id: string;
@@ -16,5 +18,5 @@ export type Regions = {
 
 export type addWebhooks = {
   url: string;
-  type: string;
+  type: UpdateType;
 };

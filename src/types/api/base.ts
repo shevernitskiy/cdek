@@ -3,6 +3,11 @@ export type Error = {
   message: string;
 };
 
+export type Warnings = {
+  code: string;
+  message: string;
+};
+
 export type Money = {
   value: number;
   vat_sum: number;
@@ -28,4 +33,11 @@ export type Location = {
   city?: string;
   kladr_code?: string;
   address: string;
+};
+
+export type addWebhooksRequests = {
+  request_uuid?: string;
+  type: string;
+  date_time: string;
+  state: string;
 };
