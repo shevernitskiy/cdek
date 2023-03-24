@@ -37,11 +37,11 @@ export type Location = {
   address: string;
 };
 
-export type RequestType = {
+export type Request = {
   request_uuid?: string;
-  type: AddWebhookResponceType;
+  type: "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";
   date_time: string;
-  state: AddWebhookResponceState;
+  state: "ACCEPTED" | "WAITING" | "SUCCESSFUL" | "INVALID";
   errors?: Error[];
   warnings?: Warning[];
 };

@@ -4,10 +4,6 @@ export type UpdateType =
   | "DOWNLOAD_PHOTO"
   | "PREALERT_CLOSED";
 
-export type AddWebhookResponceType = "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";
-
-export type AddWebhookResponceState = "ACCEPTED" | "WAITING" | "SUCCESSFUL" | "INVALID";
-
 export type OrderStatus =
   | "CREATED"
   | "REMOVED"
