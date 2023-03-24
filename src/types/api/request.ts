@@ -16,7 +16,7 @@ export type Regions = {
   lang?: string;
 };
 
-export type addWebhook = {
+export type AddWebhook = {
   url: string;
   type: UpdateType;
 };

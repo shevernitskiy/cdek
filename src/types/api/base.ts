@@ -37,7 +37,7 @@ export type Location = {
   address: string;
 };
 
-export type Request = {
+export type RequestType = {
   request_uuid?: string;
   type: AddWebhookResponceType;
   date_time: string;
