@@ -1,9 +1,11 @@
+import { AddWebhookResponceState, AddWebhookResponceType } from "./webhook.ts";
+
 export type Error = {
   code: string;
   message: string;
 };
 
-export type Warnings = {
+export type Warning = {
   code: string;
   message: string;
 };
@@ -35,9 +37,11 @@ export type Location = {
   address: string;
 };
 
-export type addWebhooksRequests = {
+export type Request = {
   request_uuid?: string;
-  type: string;
+  type: AddWebhookResponceType;
   date_time: string;
-  state: string;
+  state: AddWebhookResponceState;
+  errors?: Error[];
+  warnings?: Warning[];
 };
