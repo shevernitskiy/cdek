@@ -1,11 +1,13 @@
 {
+  "lock": false,
   "tasks": {
-    "start": "deno test -A ./tests/sandbox.ts",
-    "dev": "deno test -A --watch ./tests/sandbox.ts"
+    "start": "deno run -A ./run.ts",
+    "dev": "deno run -A --watch ./run.ts",
+    "test": "deno test -A ./tests/"
   },
   "fmt": {
     "options": {
-      "lineWidth": 140
+      "lineWidth": 120
     }
   }
 }
