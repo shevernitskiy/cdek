@@ -178,6 +178,23 @@ export type GetPassportData = {
   warnings?: Warning[];
 };
 
+export type GetCashboxCheck = {
+  check_info?: {
+    order_uuid: string;
+    cdek_number: number;
+    date: string;
+    fiscal_storage_number: string;
+    document_number: string;
+    fiscal_sign: number;
+    type: string;
+    payment_info: {
+      sum: number;
+      type: string;
+    }[];
+  }[];
+  errors?: Error[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 

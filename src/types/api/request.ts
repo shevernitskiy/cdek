@@ -131,3 +131,9 @@ export type GetPassportData = {
   cdek_number?: number[];
   client?: string;
 };
+
+export type GetCashboxCheck = {
+  order_uuid?: string;
+  cdek_number?: number;
+  date?: string;
+};

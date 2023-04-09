@@ -174,4 +174,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: params,
     });
   }
+
+  getCashboxCheck(params: ApiRequest.GetCashboxCheck): Promise<ApiResponse.GetCashboxCheck> {
+    return this.get<ApiResponse.GetCashboxCheck>({
+      url: "/check",
+      query: params,
+    });
+  }
 }
