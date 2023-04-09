@@ -86,3 +86,12 @@ export type AddCourier = {
   courier_power_of_attorney?: boolean;
   courier_identity_card?: boolean;
 };
+
+export type CreateOrderReceipt = {
+  orders: {
+    order_uuid?: string;
+    cdek_number?: number;
+  }[];
+  copy_count?: number;
+  type?: string;
+};
