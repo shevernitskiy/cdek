@@ -37,8 +37,8 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
     };
   }
 
-  getRegions(params?: ApiRequest.Regions): Promise<ApiResponse.Regions[]> {
-    return this.get<ApiResponse.Regions[]>({
+  getRegions(params?: ApiRequest.GetRegions): Promise<ApiResponse.GetRegions[]> {
+    return this.get<ApiResponse.GetRegions[]>({
       url: "/location/regions",
       query: params,
     });

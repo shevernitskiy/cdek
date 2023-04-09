@@ -22,7 +22,7 @@ export type OAuth = {
   jti: string;
 };
 
-export type Regions = {
+export type GetRegions = {
   country_code: string;
   country: string;
   region: string;

@@ -8,7 +8,7 @@ export type OAuth = {
   client_secret: string;
 };
 
-export type Regions = {
+export type GetRegions = {
   country_codes?: string[];
   region_code?: number;
   kladr_region_code?: string;
