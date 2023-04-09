@@ -96,4 +96,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/orders/${order_uuid}/refusal`,
     });
   }
+
+  addCourier(params: ApiRequest.AddCourier): Promise<ApiResponse.AddCourier> {
+    return this.post<ApiResponse.AddCourier>({
+      url: `/intakes`,
+      payload: params,
+    });
+  }
 }

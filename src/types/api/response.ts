@@ -116,3 +116,4 @@ export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;
 export type AddRefusal = EntityOperation;
+export type AddCourier = EntityOperation;

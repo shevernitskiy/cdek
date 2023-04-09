@@ -65,3 +65,24 @@ export type UpdateOrder = {
   services?: Service[];
   packages?: Package[];
 };
+
+export type AddCourier = {
+  cdek_number?: number;
+  order_uuid?: string;
+  intake_date: string;
+  intake_time_from: string;
+  intake_time_to: string;
+  lunch_time_from?: string;
+  lunch_time_to?: string;
+  name?: string;
+  weight?: number;
+  length?: number;
+  width?: number;
+  height?: number;
+  comment?: string;
+  sender?: Contact;
+  from_location?: Location;
+  need_call?: boolean;
+  courier_power_of_attorney?: boolean;
+  courier_identity_card?: boolean;
+};
