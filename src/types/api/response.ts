@@ -5,6 +5,7 @@ import type {
   Location,
   Money,
   Package,
+  ReceivePrintFrom,
   Request,
   Seller,
   Service,
@@ -29,13 +30,6 @@ export type Regions = {
   kladr_region_code?: string;
   fias_region_guid?: string;
   errors?: Error[];
-};
-
-export type AddWebhook = {
-  entity?: {
-    uuid?: string;
-  };
-  requests: Request[];
 };
 
 export type GetOrder = {
@@ -139,21 +133,10 @@ export type GetCourierDetails = {
   requests: Request[];
 };
 
-export type ReceiveOrderReceipt = {
-  entity?: {
-    uuid: string;
-    orders: {
-      order_uuid?: string;
-      cdek_number?: number;
-    }[];
-    copy_count?: number;
-    type?: string;
-    url?: string;
-    statuses: Status[];
-  };
-  requests: Request[];
-};
+export type ReceiveOrderReceipt = ReceivePrintFrom;
+export type ReceiveBarcodeCP = ReceivePrintFrom;
 
+export type AddWebhook = EntityOperation;
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;

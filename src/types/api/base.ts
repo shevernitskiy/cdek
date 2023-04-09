@@ -116,6 +116,21 @@ export type EntityOperation = {
   };
 };
 
+export type ReceivePrintFrom = {
+  entity?: {
+    uuid: string;
+    orders: {
+      order_uuid?: string;
+      cdek_number?: number;
+    }[];
+    copy_count?: number;
+    type?: string;
+    url?: string;
+    statuses: Status[];
+  };
+  requests: Request[];
+};
+
 export type Request = {
   request_uuid?: string;
   type: "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";

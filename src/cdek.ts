@@ -125,7 +125,7 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
 
   receiveOrderReceipt(uuid: string): Promise<ApiResponse.ReceiveOrderReceipt> {
     return this.get<ApiResponse.ReceiveOrderReceipt>({
-      url: `/intakes/${uuid}`,
+      url: `/print/orders/${uuid}`,
     });
   }
 
@@ -133,6 +133,12 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
     return this.post<ApiResponse.CreateBarcodeCP>({
       url: `/print/barcodes`,
       payload: params,
+    });
+  }
+
+  receiveBarcodeCP(uuid: string): Promise<ApiResponse.ReceiveBarcodeCP> {
+    return this.get<ApiResponse.ReceiveBarcodeCP>({
+      url: `/print/barcodes/${uuid}`,
     });
   }
 }
