@@ -1,5 +1,4 @@
 import type { Contact, Location, Money, Package, Seller, Service, Threshold } from "./base.ts";
-
 import type { UpdateType } from "./webhook.ts";
 
 export type OAuth = {

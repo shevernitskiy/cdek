@@ -4,7 +4,7 @@ import { EventEmitter } from "./core/eventemitter.ts";
 import { RestClient } from "./core/restclient.ts";
 
 import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
-import { InitOptions } from "./types/lib.ts";
+import type { InitOptions } from "./types/lib.ts";
 
 export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
   constructor(options: InitOptions) {
@@ -67,14 +67,14 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   getOrderByCdekNumber(cdek_number: number): Promise<ApiResponse.GetOrder> {
     return this.get<ApiResponse.GetOrder>({
-      url: `/orders`,
+      url: "/orders",
       query: { cdek_number: cdek_number },
     });
   }
 
   getOrderByImNumber(im_number: number): Promise<ApiResponse.GetOrder> {
     return this.get<ApiResponse.GetOrder>({
-      url: `/orders`,
+      url: "/orders",
       query: { im_number: im_number },
     });
   }
@@ -100,7 +100,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   addCourier(params: ApiRequest.AddCourier): Promise<ApiResponse.AddCourier> {
     return this.post<ApiResponse.AddCourier>({
-      url: `/intakes`,
+      url: "/intakes",
       payload: params,
     });
   }
@@ -119,7 +119,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   createOrderReceipt(params: ApiRequest.CreateOrderReceipt): Promise<ApiResponse.CreateOrderReceipt> {
     return this.post<ApiResponse.CreateOrderReceipt>({
-      url: `/print/orders`,
+      url: "/print/orders",
       payload: params,
     });
   }
@@ -132,7 +132,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   createBarcodeCP(params: ApiRequest.CreateBarcodeCP): Promise<ApiResponse.CreateBarcodeCP> {
     return this.post<ApiResponse.CreateBarcodeCP>({
-      url: `/print/barcodes`,
+      url: "/print/barcodes",
       payload: params,
     });
   }
@@ -145,7 +145,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   addDeliveryAppointment(params: ApiRequest.AddDeliveryAppointment): Promise<ApiResponse.AddDeliveryAppointment> {
     return this.post<ApiResponse.AddDeliveryAppointment>({
-      url: `/delivery`,
+      url: "/delivery",
       payload: params,
     });
   }
@@ -158,7 +158,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   addPrealert(params: ApiRequest.AddPrealert): Promise<ApiResponse.AddPrealert> {
     return this.post<ApiResponse.AddPrealert>({
-      url: `/prealert`,
+      url: "/prealert",
       payload: params,
     });
   }
@@ -217,7 +217,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   calculatorByTariff(params: ApiRequest.CalculatorByTariff): Promise<ApiResponse.CalculatorByTariff> {
     return this.post<ApiResponse.CalculatorByTariff>({
-      url: `/calculator/tariff`,
+      url: "/calculator/tariff",
       payload: params,
     });
   }
@@ -226,7 +226,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     params: ApiRequest.CalculatorByAvaibleTariffs,
   ): Promise<ApiResponse.CalculatorByAvaibleTariffs> {
     return this.post<ApiResponse.CalculatorByAvaibleTariffs>({
-      url: `/calculator/tarifflist`,
+      url: "/calculator/tarifflist",
       payload: params,
     });
   }
@@ -235,14 +235,14 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     params: ApiRequest.CalculatorCustoms,
   ): Promise<ApiResponse.CalculatorCustoms> {
     return this.post<ApiResponse.CalculatorCustoms>({
-      url: `/ddp`,
+      url: "/ddp",
       payload: params,
     });
   }
 
   getFinishedOrders(params: ApiRequest.GetFinishedOrders): Promise<ApiResponse.GetFinishedOrders> {
     return this.post<ApiResponse.GetFinishedOrders>({
-      url: `/photoDocument`,
+      url: "/photoDocument",
       payload: params,
     });
   }
