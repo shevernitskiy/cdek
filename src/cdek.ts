@@ -109,4 +109,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/intakes/${uuid}`,
     });
   }
+
+  deleteCourier(uuid: string): Promise<ApiResponse.DeleteCourier> {
+    return this.delete<ApiResponse.DeleteCourier>({
+      url: `/intakes/${uuid}`,
+    });
+  }
 }
