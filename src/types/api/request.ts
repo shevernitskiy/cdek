@@ -115,3 +115,13 @@ export type AddDeliveryAppointment = {
   delivery_point?: string;
   to_location?: Location;
 };
+
+export type AddPrealert = {
+  planned_date: string;
+  shipment_point: string;
+  orders: {
+    order_uuid?: string;
+    cdek_number?: number;
+    im_number?: string;
+  }[];
+};
