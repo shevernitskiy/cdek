@@ -1,17 +1,18 @@
 import { Mixin } from "../deps.ts";
 
 import { EventEmitter } from "./core/eventemitter.ts";
-import { REST } from "./core/rest.ts";
+import { RestClient } from "./core/restclient.ts";
 
 import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
+import { InitOptions } from "./types/lib.ts";
 
-export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
-  constructor(
-    protected account: string,
-    protected password: string,
-    protected grant_type = "client_credentials",
-  ) {
+export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
+  constructor(options: InitOptions) {
     super();
+    this.account = options.account;
+    this.password = options.password;
+    this.grant_type = options.grant_type ?? "client_credentials";
+    this.url_base = options.url_base ?? "https://api.cdek.ru/v2";
   }
 
   webhookHandler(): (request: Request) => Promise<Response> {

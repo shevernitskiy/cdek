@@ -3,15 +3,13 @@ import { AuthError } from "../errors/auth.ts";
 import type { ApiResponse } from "../types/api.ts";
 import type { RequestInit, RequestMethod } from "../types/lib.ts";
 
-//TODO: pass as optionable arg
-const URL_BASE = "https://api.edu.cdek.ru/v2" as const;
-
-export abstract class REST {
+export abstract class RestClient {
   protected _token?: ApiResponse.OAuth;
   protected _token_expire?: number;
   protected account!: string;
   protected password!: string;
   protected grant_type!: string;
+  protected url_base!: string;
 
   get token() {
     return this._token;
@@ -23,7 +21,7 @@ export abstract class REST {
 
   private async auth(): Promise<void> {
     try {
-      const res = await fetch(URL_BASE + "/oauth/token?parameters", {
+      const res = await fetch(this.url_base + "/oauth/token?parameters", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -52,7 +50,7 @@ export abstract class REST {
         await this.auth();
       }
 
-      const target = `${URL_BASE}${init.url}${init.query ? "?" + this.params(init.query) : ""}`;
+      const target = `${this.url_base}${init.url}${init.query ? "?" + this.params(init.query) : ""}`;
 
       const res = await fetch(target, {
         method: init.method,
