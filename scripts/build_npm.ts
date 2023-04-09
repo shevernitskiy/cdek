@@ -1,4 +1,5 @@
 console.log("removing previous files..");
+
 try {
   Deno.removeSync("./npm/", { recursive: true });
   Deno.createSync("./npm/");
@@ -13,12 +14,12 @@ const cmd = new Deno.Command("deno", {
 });
 await cmd.output();
 
-console.log("writing package.json...");
+console.log("writing package.json, version " + (Deno.args[0] ?? "1.0.0") + "...");
 
 const pakcage = {
   name: "cdek",
   description: "CDEK APIv2 client",
-  version: "1.0.0",
+  version: Deno.args[0] ?? "1.0.0",
   license: "MIT",
   engines: {
     node: ">= 18",
@@ -28,7 +29,7 @@ const pakcage = {
     url: "https://github.com/shevernitskiy/cdek",
   },
   main: "./src/cdek.js",
-  types: "./out/cdek.d.ts",
+  types: "./src/cdek.d.ts",
   dependencies: {
     "ts-mixer": "6.0.3",
   },
@@ -40,9 +41,9 @@ const pakcage = {
     "wrapper",
   ],
 };
-
 Deno.writeTextFileSync("./npm/package.json", JSON.stringify(pakcage, null, 2), { create: true });
 
 console.log("copy some stuff...");
+
 Deno.copyFileSync("./README.md", "./npm/README.md");
 Deno.copyFileSync("./LICENSE", "./npm/LICENSE");
