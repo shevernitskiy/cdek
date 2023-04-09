@@ -105,6 +105,17 @@ export type Status = {
   city?: string;
 };
 
+export type EntityOperation = {
+  entity?: {
+    uuid?: string;
+  };
+  requests: Request[];
+  related_entities?: {
+    type: string;
+    uuid: string;
+  };
+};
+
 export type Request = {
   request_uuid?: string;
   type: "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";

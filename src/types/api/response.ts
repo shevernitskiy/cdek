@@ -1,4 +1,16 @@
-import type { Contact, Error, Location, Money, Package, Request, Seller, Service, Status, Threshold } from "./base.ts";
+import type {
+  Contact,
+  EntityOperation,
+  Error,
+  Location,
+  Money,
+  Package,
+  Request,
+  Seller,
+  Service,
+  Status,
+  Threshold,
+} from "./base.ts";
 
 export type OAuth = {
   access_token: string;
@@ -26,16 +38,9 @@ export type AddWebhook = {
   requests: Request[];
 };
 
-export type AddOrder = {
-  entity?: {
-    uuid?: string;
-  };
-  requests: Request[];
-  related_entities?: {
-    type: string;
-    uuid: string;
-  };
-};
+export type AddOrder = EntityOperation;
+export type UpdateOrder = EntityOperation;
+export type DeleteOrder = EntityOperation;
 
 export type GetOrder = {
   entity?: {
@@ -109,15 +114,4 @@ export type GetOrder = {
     time_from?: string;
     time_to?: string;
   }[];
-};
-
-export type UpdateOrder = {
-  entity?: {
-    uuid?: string;
-  };
-  requests: Request[];
-  related_entities?: {
-    type: string;
-    uuid: string;
-  };
 };
