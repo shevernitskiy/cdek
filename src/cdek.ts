@@ -7,6 +7,11 @@ import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
 import type { InitOptions } from "./types/lib.ts";
 
 export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
+  protected account: string;
+  protected password: string;
+  protected grant_type: string;
+  protected url_base: string;
+
   constructor(options: InitOptions) {
     super();
     this.account = options.account;

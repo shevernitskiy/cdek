@@ -6,10 +6,10 @@ import type { RequestInit, RequestMethod } from "../types/lib.ts";
 export abstract class RestClient {
   protected _token?: ApiResponse.OAuth;
   protected _token_expire?: number;
-  protected account!: string;
-  protected password!: string;
-  protected grant_type!: string;
-  protected url_base!: string;
+  protected abstract account: string;
+  protected abstract password: string;
+  protected abstract grant_type: string;
+  protected abstract url_base: string;
 
   get token() {
     return this._token;
