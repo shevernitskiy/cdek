@@ -148,4 +148,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  getDeliveryAppointment(uuid: string): Promise<ApiResponse.GetDeliveryAppointment> {
+    return this.get<ApiResponse.GetDeliveryAppointment>({
+      url: `/delivery/${uuid}`,
+    });
+  }
 }

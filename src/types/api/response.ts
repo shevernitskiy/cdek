@@ -133,6 +133,22 @@ export type GetCourierDetails = {
   requests: Request[];
 };
 
+export type GetDeliveryAppointment = {
+  entity?: {
+    uuid: string;
+    cdek_number?: string;
+    order_uuid: string;
+    date: string;
+    time_from?: string;
+    time_to?: string;
+    comment?: string;
+    delivery_point?: string;
+    to_location?: Location;
+    statuses: Status[];
+  };
+  requests: Request[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 
