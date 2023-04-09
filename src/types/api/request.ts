@@ -164,3 +164,19 @@ export type GetPickupPoints = {
   is_reception?: boolean;
   fias_guid?: string;
 };
+
+export type GetCities = {
+  country_codes?: string[];
+  region_code?: number;
+  kladr_region_code?: string;
+  fias_region_guid?: string;
+  kladr_code?: string;
+  fias_guid?: string;
+  postal_code?: string;
+  code?: number;
+  city?: string;
+  size?: number;
+  page?: number;
+  lang?: string;
+  payment_limit?: number;
+};

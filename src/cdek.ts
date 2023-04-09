@@ -206,4 +206,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: params,
     });
   }
+
+  getCities(params?: ApiRequest.GetCities): Promise<ApiResponse.GetCities[]> {
+    return this.get<ApiResponse.GetCities[]>({
+      url: "/location/cities",
+      query: params,
+    });
+  }
 }

@@ -267,6 +267,25 @@ export type GetPickupPoints = {
   errors?: Error[];
 };
 
+export type GetCities = {
+  code: number;
+  city: string;
+  fias_guid?: string;
+  kladr_code?: string;
+  country_code: string;
+  country: string;
+  region: string;
+  region_code?: number;
+  fias_region_guid?: string;
+  kladr_region_code?: string;
+  sub_region?: string;
+  longitude?: number;
+  latitude?: number;
+  time_zone?: string;
+  payment_limit: number;
+  errors?: Error[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 
