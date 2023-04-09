@@ -112,6 +112,33 @@ export type GetOrder = {
   }[];
 };
 
+export type GetCourierDetails = {
+  entity?: {
+    uuid: string;
+    intake_number?: number;
+    cdek_number?: number;
+    order_uuid?: string;
+    intake_date: string;
+    intake_time_from: string;
+    intake_time_to: string;
+    lunch_time_from?: string;
+    lunch_time_to?: string;
+    name?: string;
+    weight?: number;
+    length?: number;
+    width?: number;
+    height?: number;
+    comment?: string;
+    sender?: Contact;
+    from_location: Location;
+    need_call?: boolean;
+    statuses: Status[];
+    courier_power_of_attorney?: boolean;
+    courier_identity_card?: boolean;
+  };
+  requests: Request[];
+};
+
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;

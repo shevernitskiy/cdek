@@ -103,4 +103,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  getCourierDetails(uuid: string): Promise<ApiResponse.GetCourierDetails> {
+    return this.get<ApiResponse.GetCourierDetails>({
+      url: `/intakes/${uuid}`,
+    });
+  }
 }
