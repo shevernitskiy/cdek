@@ -11,6 +11,7 @@ import type {
   Service,
   Status,
   Threshold,
+  Warning,
 } from "./base.ts";
 
 export type OAuth = {
@@ -162,6 +163,19 @@ export type GetPrealert = {
     }[];
   };
   requests: Request[];
+};
+
+export type GetPassportData = {
+  orders?: {
+    order_uuid: string;
+    cdek_number: number;
+    passport: {
+      client: string;
+      passport_requirements_satisfied: boolean;
+    }[];
+  }[];
+  errors?: Error[];
+  warnings?: Warning[];
 };
 
 export type ReceiveOrderReceipt = ReceivePrintFrom;

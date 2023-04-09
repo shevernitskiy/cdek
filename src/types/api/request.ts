@@ -125,3 +125,9 @@ export type AddPrealert = {
     im_number?: string;
   }[];
 };
+
+export type GetPassportData = {
+  order_uuid?: string[];
+  cdek_number?: number[];
+  client?: string;
+};

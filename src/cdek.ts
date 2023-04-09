@@ -167,4 +167,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/delivery/${uuid}`,
     });
   }
+
+  getPassportData(params: ApiRequest.GetPassportData): Promise<ApiResponse.GetPassportData> {
+    return this.get<ApiResponse.GetPassportData>({
+      url: "/passport",
+      query: params,
+    });
+  }
 }
