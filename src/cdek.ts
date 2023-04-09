@@ -57,4 +57,24 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  getOrderByUUID(uuid: string): Promise<ApiResponse.GetOrder> {
+    return this.get<ApiResponse.GetOrder>({
+      url: `/orders/${uuid}`,
+    });
+  }
+
+  getOrderByCdekNumber(cdek_number: number): Promise<ApiResponse.GetOrder> {
+    return this.get<ApiResponse.GetOrder>({
+      url: `/orders`,
+      query: { cdek_number: cdek_number },
+    });
+  }
+
+  getOrderByImNumber(im_number: number): Promise<ApiResponse.GetOrder> {
+    return this.get<ApiResponse.GetOrder>({
+      url: `/orders`,
+      query: { im_number: im_number },
+    });
+  }
 }

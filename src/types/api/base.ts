@@ -8,10 +8,6 @@ export type Warning = {
   message: string;
 };
 
-export type Entity = {
-  uuid?: string;
-};
-
 export type Money = {
   value: number;
   vat_sum?: number;
@@ -31,6 +27,7 @@ export type Location = {
   postal_code?: string;
   longitude?: number;
   latitude?: number;
+  country?: string;
   country_code?: string;
   region?: string;
   region_code?: number;
@@ -70,6 +67,7 @@ export type Seller = {
 export type Service = {
   code: string;
   parameter?: string;
+  sum?: number;
 };
 
 export type Package = {
@@ -90,6 +88,7 @@ export type Item = {
   weight: number;
   weight_gross?: number;
   amount: number;
+  delivery_amount?: number;
   name_i18n?: string;
   brand?: string;
   country_code?: string;
