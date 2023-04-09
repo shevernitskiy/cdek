@@ -245,4 +245,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  createClientReturn(params: ApiRequest.CreateClientReturn): Promise<ApiResponse.CreateClientReturn> {
+    return this.post<ApiResponse.CreateClientReturn>({
+      url: `orders/${params.order_uuid}/clientReturn`,
+      payload: { tariff_code: params.tariff_code },
+    });
+  }
 }

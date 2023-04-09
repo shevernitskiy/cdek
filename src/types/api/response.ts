@@ -349,3 +349,4 @@ export type CreateOrderReceipt = EntityOperation;
 export type CreateBarcodeCP = EntityOperation;
 export type AddDeliveryAppointment = EntityOperation;
 export type AddPrealert = EntityOperation;
+export type CreateClientReturn = EntityOperation;

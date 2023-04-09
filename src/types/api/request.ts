@@ -225,3 +225,8 @@ export type GetFinishedOrders = {
     cdek_number?: number;
   };
 };
+
+export type CreateClientReturn = {
+  order_uuid: string;
+  tariff_code: number;
+};
