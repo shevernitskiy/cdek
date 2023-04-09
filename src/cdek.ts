@@ -213,4 +213,29 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: params,
     });
   }
+
+  calculatorByTariff(params: ApiRequest.CalculatorByTariff): Promise<ApiResponse.CalculatorByTariff> {
+    return this.post<ApiResponse.CalculatorByTariff>({
+      url: `/calculator/tariff`,
+      payload: params,
+    });
+  }
+
+  calculatorByAvaibleTariffs(
+    params: ApiRequest.CalculatorByAvaibleTariffs,
+  ): Promise<ApiResponse.CalculatorByAvaibleTariffs> {
+    return this.post<ApiResponse.CalculatorByAvaibleTariffs>({
+      url: `/calculator/tarifflist`,
+      payload: params,
+    });
+  }
+
+  calculatorCustoms(
+    params: ApiRequest.CalculatorCustoms,
+  ): Promise<ApiResponse.CalculatorCustoms> {
+    return this.post<ApiResponse.CalculatorCustoms>({
+      url: `/ddp`,
+      payload: params,
+    });
+  }
 }

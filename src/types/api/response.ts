@@ -286,6 +286,40 @@ export type GetCities = {
   errors?: Error[];
 };
 
+export type CalculatorByTariff = {
+  delivery_sum: number;
+  period_min: number;
+  period_max: number;
+  weight_calc: number;
+  services?: Service[];
+  total_sum: number;
+  currency: string;
+  errors?: Error[];
+};
+
+export type CalculatorByAvaibleTariffs = {
+  tariff_codes?: {
+    tariff_code: number;
+    tariff_name: string;
+    tariff_description: string;
+    delivery_mode: number;
+    delivery_sum: number;
+    period_min: number;
+    period_max: number;
+  }[];
+  errors?: Error[];
+};
+
+export type CalculatorCustoms = {
+  cost: number;
+  weight: number;
+  customs_duty: number;
+  customs_tariff: number;
+  commission: number;
+  total_amount: number;
+  errors?: Error[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 

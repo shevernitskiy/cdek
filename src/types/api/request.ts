@@ -180,3 +180,39 @@ export type GetCities = {
   lang?: string;
   payment_limit?: number;
 };
+
+export type CalculatorByTariff = {
+  date?: string;
+  type?: number;
+  currency?: number;
+  tariff_code: number;
+  from_location: Location;
+  to_location: Location;
+  services?: Service[];
+  packages: {
+    weight: number;
+    length?: number;
+    width?: number;
+    height?: number;
+  }[];
+};
+
+export type CalculatorByAvaibleTariffs = {
+  date?: string;
+  type?: number;
+  currency?: number;
+  from_location: Location;
+  to_location: Location;
+  services?: Service[];
+  packages: {
+    weight: number;
+    length?: number;
+    width?: number;
+    height?: number;
+  }[];
+};
+
+export type CalculatorCustoms = {
+  weight: number;
+  cost: number;
+};
