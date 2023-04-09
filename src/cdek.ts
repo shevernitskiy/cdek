@@ -161,4 +161,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  getPrealert(uuid: string): Promise<ApiResponse.GetPrealert> {
+    return this.get<ApiResponse.GetPrealert>({
+      url: `/delivery/${uuid}`,
+    });
+  }
 }

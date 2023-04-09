@@ -149,6 +149,21 @@ export type GetDeliveryAppointment = {
   requests: Request[];
 };
 
+export type GetPrealert = {
+  entity?: {
+    uuid: string;
+    prealert_number?: string;
+    planned_date: string;
+    shipment_point: string;
+    orders: {
+      order_uuid: string;
+      cdek_number: number;
+      im_number: string;
+    }[];
+  };
+  requests: Request[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 
