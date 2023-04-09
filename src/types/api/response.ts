@@ -14,6 +14,7 @@ import type {
   Threshold,
   Warning,
 } from "./base.ts";
+import { UpdateType } from "./webhook.ts";
 
 export type OAuth = {
   access_token: string;
@@ -339,6 +340,20 @@ export type AddWebhook = EntityOperation & {
     uuid: string;
   }[];
 };
+export type GetWebhook = EntityOperation & {
+  entity?: {
+    url: string;
+    type: UpdateType;
+  };
+};
+export type GetWebhooks = EntityOperation & {
+  entity?: {
+    uuid: string;
+    url: string;
+    type: UpdateType;
+  }[];
+};
+export type DeleteWebhook = EntityOperation;
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;

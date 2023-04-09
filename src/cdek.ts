@@ -52,6 +52,24 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     });
   }
 
+  getWebhookByUUID(uuid: string): Promise<ApiResponse.GetWebhook> {
+    return this.get<ApiResponse.GetWebhook>({
+      url: `/webhooks/${uuid}`,
+    });
+  }
+
+  getWebhooks(): Promise<ApiResponse.GetWebhooks> {
+    return this.get<ApiResponse.GetWebhooks>({
+      url: `/webhooks`,
+    });
+  }
+
+  deleteWebhookByUUID(uuid: string): Promise<ApiResponse.DeleteWebhook> {
+    return this.delete<ApiResponse.DeleteWebhook>({
+      url: `/webhooks/${uuid}`,
+    });
+  }
+
   addOrder(params: ApiRequest.AddOrder): Promise<ApiResponse.AddOrder> {
     return this.post<ApiResponse.AddOrder>({
       url: "/orders",
