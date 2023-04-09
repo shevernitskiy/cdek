@@ -110,10 +110,6 @@ export type EntityOperation = {
     uuid?: string;
   };
   requests: Request[];
-  related_entities?: {
-    type: string;
-    uuid: string;
-  };
 };
 
 export type ReceivePrintFrom = {

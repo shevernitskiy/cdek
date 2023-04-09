@@ -136,7 +136,12 @@ export type GetCourierDetails = {
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 
-export type AddWebhook = EntityOperation;
+export type AddWebhook = EntityOperation & {
+  related_entities: {
+    type: string;
+    uuid: string;
+  }[];
+};
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;
@@ -145,3 +150,4 @@ export type AddCourier = EntityOperation;
 export type DeleteCourier = EntityOperation;
 export type CreateOrderReceipt = EntityOperation;
 export type CreateBarcodeCP = EntityOperation;
+export type AddDeliveryAppointment = EntityOperation;

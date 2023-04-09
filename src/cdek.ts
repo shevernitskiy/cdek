@@ -141,4 +141,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/print/barcodes/${uuid}`,
     });
   }
+
+  addDeliveryAppointment(params: ApiRequest.AddDeliveryAppointment): Promise<ApiResponse.AddDeliveryAppointment> {
+    return this.post<ApiResponse.AddDeliveryAppointment>({
+      url: `/delivery`,
+      payload: params,
+    });
+  }
 }

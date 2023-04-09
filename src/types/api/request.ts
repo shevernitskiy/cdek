@@ -104,3 +104,14 @@ export type CreateBarcodeCP = {
   copy_count?: number;
   format?: "A4" | "A5" | "A6";
 };
+
+export type AddDeliveryAppointment = {
+  cdek_number?: string;
+  order_uuid?: string;
+  date: string;
+  time_from?: string;
+  time_to?: string;
+  comment?: string;
+  delivery_point?: string;
+  to_location?: Location;
+};
