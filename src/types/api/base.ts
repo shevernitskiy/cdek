@@ -35,6 +35,72 @@ export type Location = {
   address: string;
 };
 
+export type Contact = {
+  company?: string;
+  name: string;
+  email?: string;
+  phones: Phone[];
+  passport_series?: string;
+  passport_number?: string;
+  passport_date_of_issue?: string;
+  passport_organization?: string;
+  passport_date_of_birth?: string;
+  tin?: string;
+  passport_requirements_satisfied?: boolean;
+};
+
+export type Phone = {
+  number: string;
+  additional?: string;
+};
+
+export type Seller = {
+  name?: string;
+  inn?: string;
+  phone?: string;
+  ownership_form?: number;
+  address?: string;
+};
+
+export type Service = {
+  code: number;
+  parameter?: string;
+};
+
+export type Package = {
+  number: string;
+  weight: number;
+  length?: number;
+  width?: number;
+  height?: number;
+  comment?: string;
+  items?: Item[];
+};
+
+export type Item = {
+  name: string;
+  ware_key: string;
+  payment: Money;
+  cost: number;
+  weight: number;
+  weight_gross?: number;
+  amount: number;
+  name_i18n?: string;
+  brand?: string;
+  country_code?: string;
+  material?: string;
+  wifi_gsm?: true;
+  url?: string;
+};
+
+export type Status = {
+  code: string;
+  name: string;
+  date_time: string;
+  reason_code?: string;
+  city?: string;
+};
+
 export type Request = {
   request_uuid?: string;
   type: "CREATE" | "UPDATE" | "DELETE" | "AUTH" | "GET";
