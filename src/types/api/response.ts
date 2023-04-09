@@ -38,10 +38,6 @@ export type AddWebhook = {
   requests: Request[];
 };
 
-export type AddOrder = EntityOperation;
-export type UpdateOrder = EntityOperation;
-export type DeleteOrder = EntityOperation;
-
 export type GetOrder = {
   entity?: {
     uuid: string;
@@ -115,3 +111,8 @@ export type GetOrder = {
     time_to?: string;
   }[];
 };
+
+export type AddOrder = EntityOperation;
+export type UpdateOrder = EntityOperation;
+export type DeleteOrder = EntityOperation;
+export type AddRefusal = EntityOperation;

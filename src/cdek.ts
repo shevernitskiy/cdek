@@ -90,4 +90,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/orders/${uuid}`,
     });
   }
+
+  addRefusal(order_uuid: string): Promise<ApiResponse.AddRefusal> {
+    return this.post<ApiResponse.AddOrder>({
+      url: `/orders/${order_uuid}/refusal`,
+    });
+  }
 }
