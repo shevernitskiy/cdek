@@ -137,3 +137,11 @@ export type GetCashboxCheck = {
   cdek_number?: number;
   date?: string;
 };
+
+export type GetCashOnDeliveryRegistry = {
+  date: string;
+};
+
+export type GetCashOnDeliveryTransfer = {
+  date: string;
+};

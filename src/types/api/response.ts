@@ -195,6 +195,32 @@ export type GetCashboxCheck = {
   errors?: Error[];
 };
 
+export type GetCashOnDeliveryRegistry = {
+  registries?: {
+    registry_number: number;
+    payment_date?: string;
+    sum: number;
+    payment_order_number?: string;
+    orders: {
+      cdek_number: string;
+      transfer_sum: number;
+      payment_sum: number;
+      total_sum_without_agent: number;
+      agent_commission_sum: number;
+    }[];
+  }[];
+  errors?: Error[];
+};
+
+export type GetCashOnDeliveryTransfer = {
+  orders?: {
+    order_uuid: string;
+    cdek_number: number;
+    number: string;
+  }[];
+  errors?: Error[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 

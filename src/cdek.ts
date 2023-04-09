@@ -181,4 +181,22 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: params,
     });
   }
+
+  getCashOnDeliveryRegistry(
+    params: ApiRequest.GetCashOnDeliveryRegistry,
+  ): Promise<ApiResponse.GetCashOnDeliveryRegistry> {
+    return this.get<ApiResponse.GetCashOnDeliveryRegistry>({
+      url: "/registries",
+      query: params,
+    });
+  }
+
+  getCashOnDeliveryTransfer(
+    params: ApiRequest.GetCashOnDeliveryTransfer,
+  ): Promise<ApiResponse.GetCashOnDeliveryTransfer> {
+    return this.get<ApiResponse.GetCashOnDeliveryTransfer>({
+      url: "/payment",
+      query: params,
+    });
+  }
 }
