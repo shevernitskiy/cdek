@@ -50,4 +50,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  addOrder(params: ApiRequest.AddOrder): Promise<ApiResponse.AddOrder> {
+    return this.post<ApiResponse.AddOrder>({
+      url: "/orders",
+      payload: params,
+    });
+  }
 }

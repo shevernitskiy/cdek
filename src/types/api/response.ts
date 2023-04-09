@@ -1,4 +1,4 @@
-import type { Error, Request } from "./base.ts";
+import type { Entity, Error, Request } from "./base.ts";
 
 export type OAuth = {
   access_token: string;
@@ -20,7 +20,15 @@ export type Regions = {
 };
 
 export type AddWebhook = {
-  entity?: string;
-  uuid?: string;
+  entity?: Entity;
   requests: Request[];
+};
+
+export type AddOrder = {
+  entity?: Entity;
+  requests: Request[];
+  related_entities?: {
+    type: string;
+    uuid: string;
+  };
 };

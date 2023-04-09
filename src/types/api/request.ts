@@ -1,3 +1,5 @@
+import type { Contact, Location, Money, Package, Seller, Service, Threshold } from "./base.ts";
+
 import type { UpdateType } from "./webhook.ts";
 
 export type OAuth = {
@@ -19,4 +21,30 @@ export type Regions = {
 export type AddWebhook = {
   url: string;
   type: UpdateType;
+};
+
+export type AddOrder = {
+  type?: number;
+  additional_order_types?: (4 | 6 | 7)[];
+  number?: string;
+  tariff_code: number;
+  comment?: string;
+  developer_key?: string;
+  shipment_point?: string;
+  delivery_point?: string;
+  date_invoice?: string;
+  shipper_name?: string;
+  shipper_address?: string;
+  delivery_recipient_cost?: Money;
+  delivery_recipient_cost_adv?: Threshold[];
+  sender?: Contact;
+  seller?: Seller;
+  recipient: Contact;
+  from_location: Location;
+  to_location: Location;
+  services?: Service[];
+  packages: Package[];
+  url?: string;
+  print?: string;
+  is_client_return?: boolean;
 };

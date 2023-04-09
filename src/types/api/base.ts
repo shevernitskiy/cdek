@@ -8,17 +8,21 @@ export type Warning = {
   message: string;
 };
 
+export type Entity = {
+  uuid?: string;
+};
+
 export type Money = {
   value: number;
-  vat_sum: number;
-  var_rate: number;
+  vat_sum?: number;
+  var_rate?: number;
 };
 
 export type Threshold = {
   threshold: number;
   sum: number;
-  vat_sum: number;
-  vat_rate: number;
+  vat_sum?: number;
+  vat_rate?: number;
 };
 
 export type Location = {
@@ -29,6 +33,7 @@ export type Location = {
   latitude?: number;
   country_code?: string;
   region?: string;
+  region_code?: number;
   sub_region?: string;
   city?: string;
   kladr_code?: string;
@@ -39,7 +44,7 @@ export type Contact = {
   company?: string;
   name: string;
   email?: string;
-  phones: Phone[];
+  phones?: Phone[];
   passport_series?: string;
   passport_number?: string;
   passport_date_of_issue?: string;
@@ -63,7 +68,7 @@ export type Seller = {
 };
 
 export type Service = {
-  code: number;
+  code: string;
   parameter?: string;
 };
 
