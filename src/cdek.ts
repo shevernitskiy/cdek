@@ -122,4 +122,10 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  receiveOrderReceipt(uuid: string): Promise<ApiResponse.ReceiveOrderReceipt> {
+    return this.get<ApiResponse.ReceiveOrderReceipt>({
+      url: `/intakes/${uuid}`,
+    });
+  }
 }

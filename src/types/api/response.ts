@@ -139,6 +139,21 @@ export type GetCourierDetails = {
   requests: Request[];
 };
 
+export type ReceiveOrderReceipt = {
+  entity?: {
+    uuid: string;
+    orders: {
+      order_uuid?: string;
+      cdek_number?: number;
+    }[];
+    copy_count?: number;
+    type?: string;
+    url?: string;
+    statuses: Status[];
+  };
+  requests: Request[];
+};
+
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
 export type DeleteOrder = EntityOperation;
