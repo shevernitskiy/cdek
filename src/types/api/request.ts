@@ -95,3 +95,12 @@ export type CreateOrderReceipt = {
   copy_count?: number;
   type?: string;
 };
+
+export type CreateBarcodeCP = {
+  orders: {
+    order_uuid?: string;
+    cdek_number?: number;
+  }[];
+  copy_count?: number;
+  format?: "A4" | "A5" | "A6";
+};

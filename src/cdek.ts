@@ -128,4 +128,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       url: `/intakes/${uuid}`,
     });
   }
+
+  createBarcodeCP(params: ApiRequest.CreateBarcodeCP): Promise<ApiResponse.CreateBarcodeCP> {
+    return this.post<ApiResponse.CreateBarcodeCP>({
+      url: `/print/barcodes`,
+      payload: params,
+    });
+  }
 }

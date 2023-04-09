@@ -161,3 +161,4 @@ export type AddRefusal = EntityOperation;
 export type AddCourier = EntityOperation;
 export type DeleteCourier = EntityOperation;
 export type CreateOrderReceipt = EntityOperation;
+export type CreateBarcodeCP = EntityOperation;
