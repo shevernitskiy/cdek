@@ -320,6 +320,16 @@ export type CalculatorCustoms = {
   errors?: Error[];
 };
 
+export type GetFinishedOrders = {
+  orders: {
+    order_uuid: string;
+    cdek_number: string;
+    link: string;
+  }[];
+  errors?: Error[];
+  warnings?: Warning[];
+};
+
 export type ReceiveOrderReceipt = ReceivePrintFrom;
 export type ReceiveBarcodeCP = ReceivePrintFrom;
 

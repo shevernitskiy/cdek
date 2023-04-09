@@ -238,4 +238,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       payload: params,
     });
   }
+
+  getFinishedOrders(params: ApiRequest.GetFinishedOrders): Promise<ApiResponse.GetFinishedOrders> {
+    return this.post<ApiResponse.GetFinishedOrders>({
+      url: `/photoDocument`,
+      payload: params,
+    });
+  }
 }

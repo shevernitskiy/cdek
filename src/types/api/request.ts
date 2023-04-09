@@ -216,3 +216,12 @@ export type CalculatorCustoms = {
   weight: number;
   cost: number;
 };
+
+export type GetFinishedOrders = {
+  period_begin?: string;
+  period_end?: string;
+  orders?: {
+    order_uuid?: string;
+    cdek_number?: number;
+  };
+};
