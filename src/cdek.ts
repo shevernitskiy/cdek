@@ -199,4 +199,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: params,
     });
   }
+
+  getPickupPoints(params?: ApiRequest.GetPickupPoints): Promise<ApiResponse.GetPickupPoints[]> {
+    return this.get<ApiResponse.GetPickupPoints[]>({
+      url: "/deliverypoints",
+      query: params,
+    });
+  }
 }

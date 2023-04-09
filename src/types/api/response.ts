@@ -5,6 +5,7 @@ import type {
   Location,
   Money,
   Package,
+  Phone,
   ReceivePrintFrom,
   Request,
   Seller,
@@ -217,6 +218,51 @@ export type GetCashOnDeliveryTransfer = {
     order_uuid: string;
     cdek_number: number;
     number: string;
+  }[];
+  errors?: Error[];
+};
+
+export type GetPickupPoints = {
+  code: string;
+  name: string;
+  location: Location & { address_full: string };
+  address_comment?: string;
+  nearest_station: string;
+  nearest_metro_station?: string;
+  work_time: string;
+  phones: Phone[];
+  email: string;
+  note: string;
+  type: "PVZ" | "POSTAMAT";
+  owner_code: string;
+  take_only: boolean;
+  is_handout: boolean;
+  is_reception: boolean;
+  is_dressing_room: string;
+  have_cashless: string;
+  have_cash: boolean;
+  allowed_cod: string;
+  site?: string;
+  office_image_list: {
+    url: string;
+    number: number;
+  }[];
+  work_time_list: {
+    day: number;
+    time: string;
+  }[];
+  work_time_exceptions?: {
+    date: string;
+    time?: string;
+    is_working: boolean;
+  }[];
+  weight_min: number;
+  weight_max?: number;
+  fulfillment: boolean;
+  dimensions?: {
+    width: number;
+    height: number;
+    depth: number;
   }[];
   errors?: Error[];
 };

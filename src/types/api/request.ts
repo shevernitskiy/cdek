@@ -145,3 +145,22 @@ export type GetCashOnDeliveryRegistry = {
 export type GetCashOnDeliveryTransfer = {
   date: string;
 };
+
+export type GetPickupPoints = {
+  postal_code?: number;
+  city_code?: number;
+  type?: string;
+  country_code?: string;
+  region_code?: number;
+  have_cashless?: boolean;
+  have_cash?: boolean;
+  allowed_cod?: boolean;
+  is_dressing_room?: boolean;
+  weight_max?: number;
+  weight_min?: number;
+  lang?: string;
+  take_only?: boolean;
+  is_handout?: boolean;
+  is_reception?: boolean;
+  fias_guid?: string;
+};
