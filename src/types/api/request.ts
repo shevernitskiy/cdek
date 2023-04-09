@@ -44,7 +44,6 @@ export type AddOrder = {
   to_location: Location;
   services?: Service[];
   packages: Package[];
-  url?: string;
   print?: string;
   is_client_return?: boolean;
 };
