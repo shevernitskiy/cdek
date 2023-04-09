@@ -110,3 +110,14 @@ export type GetOrder = {
     time_to?: string;
   }[];
 };
+
+export type UpdateOrder = {
+  entity?: {
+    uuid?: string;
+  };
+  requests: Request[];
+  related_entities?: {
+    type: string;
+    uuid: string;
+  };
+};

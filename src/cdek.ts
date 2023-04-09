@@ -77,4 +77,11 @@ export class Cdek extends Mixin(REST, EventEmitter<ApiWebhook.EventMap>) {
       query: { im_number: im_number },
     });
   }
+
+  updateOrder(params: ApiRequest.UpdateOrder): Promise<ApiResponse.UpdateOrder> {
+    return this.patch<ApiResponse.UpdateOrder>({
+      url: "/orders",
+      payload: params,
+    });
+  }
 }

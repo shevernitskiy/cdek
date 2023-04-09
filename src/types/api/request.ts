@@ -47,3 +47,21 @@ export type AddOrder = {
   print?: string;
   is_client_return?: boolean;
 };
+
+export type UpdateOrder = {
+  uuid?: string;
+  cdek_number?: number;
+  tariff_code?: number;
+  comment?: string;
+  shipment_point?: string;
+  delivery_point?: string;
+  delivery_recipient_cost?: Money;
+  delivery_recipient_cost_adv?: Threshold[];
+  sender?: Contact;
+  seller?: Seller;
+  recipient?: Contact;
+  to_location?: Location;
+  from_location?: Location;
+  services?: Service[];
+  packages?: Package[];
+};

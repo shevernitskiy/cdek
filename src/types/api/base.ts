@@ -34,7 +34,7 @@ export type Location = {
   sub_region?: string;
   city?: string;
   kladr_code?: string;
-  address: string;
+  address?: string;
 };
 
 export type Contact = {
