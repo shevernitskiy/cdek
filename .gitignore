@@ -2,3 +2,4 @@ deno.lock
 run.ts
 /src/ts.ts
 .DS_Store
+/npm

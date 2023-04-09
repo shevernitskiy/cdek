@@ -1,4 +1,4 @@
-import { Mixin } from "../deps.ts";
+import { Mixin } from "ts-mixer";
 
 import { EventEmitter } from "./core/eventemitter.ts";
 import { RestClient } from "./core/restclient.ts";

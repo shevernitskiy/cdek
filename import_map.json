@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "ts-mixer": "npm:ts-mixer@6.0.3"
+  }
+}

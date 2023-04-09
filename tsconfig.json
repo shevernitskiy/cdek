@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outDir": "./npm/src",
+    "declaration": true
+  },
+  "include": ["./src/**/*"],
+  "deno2node": {}
+}

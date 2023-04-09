@@ -1,13 +1,20 @@
 {
+  "importMap": "import_map.json",
   "lock": false,
   "tasks": {
     "start": "deno run -A ./run.ts",
     "dev": "deno run -A --watch ./run.ts",
-    "test": "deno test -A ./tests/"
+    "test": "deno test -A ./tests/",
+    "npm": "deno run -A ./scripts/build_npm.ts"
   },
   "fmt": {
     "options": {
       "lineWidth": 120
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": ["./npm"]
     }
   }
 }
