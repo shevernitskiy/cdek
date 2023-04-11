@@ -17,7 +17,7 @@ For Deno just import like cool kid.
 Example for Deno.
 
 ```ts
-import { Cdek } from "https://deno.land/x/cdek@v1.0.1/mod.ts";
+import { Cdek, ApiError, HttpError } from "https://deno.land/x/cdek@v1.0.4/mod.ts";
 
 const client = new Cdek({
   account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
@@ -41,6 +41,20 @@ try {
     console.error("Unknown Error", err);
   }
 }
+```
+
+## Webhook
+
+You could handle incoming webhooks.
+
+```ts
+import { Cdek } from "https://deno.land/x/cdek@v1.0.4/mod.ts";
+
+const client = new Cdek(...);
+
+client.on("ORDER_STATUS", (ctx) => console.log(ctx.attributes.code));
+
+Deno.serve(client.webhookHandler(), { port: 6767 });
 ```
 
 ## Contribution

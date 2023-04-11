@@ -14,12 +14,12 @@ const cmd = new Deno.Command("deno", {
 });
 await cmd.output();
 
-console.log("writing package.json, version " + (Deno.args[0] ?? "1.0.1") + "...");
+console.log("writing package.json, version " + (Deno.args[0] ?? "1.0.4") + "...");
 
 const pakcage = {
   name: "cdek",
   description: "CDEK API client",
-  version: Deno.args[0] ?? "1.0.1",
+  version: Deno.args[0] ?? "1.0.4",
   author: "shevernitskiy",
   license: "MIT",
   engines: {
@@ -29,9 +29,9 @@ const pakcage = {
     type: "git",
     url: "https://github.com/shevernitskiy/cdek",
   },
-  files: ["./src"],
-  main: "./src/cdek.js",
-  types: "./src/cdek.d.ts",
+  files: ["./src", "./mod.js", "./mod.d.ts"],
+  main: "./mod.js",
+  types: "./mod.d.ts",
   dependencies: {
     "ts-mixer": "6.0.3",
   },
