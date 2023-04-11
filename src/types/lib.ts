@@ -1,4 +1,6 @@
 // deno-lint-ignore-file
+import { Request } from "./api/base.ts";
+
 export type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 export type RequestInit = {
@@ -12,4 +14,8 @@ export type InitOptions = {
   password: string;
   grant_type?: string;
   url_base?: "https://api.edu.cdek.ru/v2" | "https://api.cdek.ru/v2";
+};
+
+export type InvalidRequest = {
+  requests: Request[];
 };

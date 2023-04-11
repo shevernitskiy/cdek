@@ -33,6 +33,7 @@ export type Location = {
   region_code?: number;
   sub_region?: string;
   city?: string;
+  city_code?: number;
   kladr_code?: string;
   address?: string;
 };
@@ -112,7 +113,7 @@ export type EntityOperation = {
   requests: Request[];
 };
 
-export type ReceivePrintFrom = {
+export type PrintForm = {
   entity?: {
     uuid: string;
     orders: {
@@ -121,6 +122,7 @@ export type ReceivePrintFrom = {
     }[];
     copy_count?: number;
     type?: string;
+    format?: "A4" | "A5" | "A6";
     url?: string;
     statuses: Status[];
   };

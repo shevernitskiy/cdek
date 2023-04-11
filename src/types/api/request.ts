@@ -39,8 +39,8 @@ export type AddOrder = {
   sender?: Contact;
   seller?: Seller;
   recipient: Contact;
-  from_location: Location;
-  to_location: Location;
+  from_location?: Location;
+  to_location?: Location;
   services?: Service[];
   packages: Package[];
   print?: string;
@@ -200,6 +200,7 @@ export type CalculatorByAvaibleTariffs = {
   date?: string;
   type?: number;
   currency?: number;
+  lang?: "rus" | "eng" | "zho";
   from_location: Location;
   to_location: Location;
   services?: Service[];

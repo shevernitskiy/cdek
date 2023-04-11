@@ -65,7 +65,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
 
   getWebhooks(): Promise<ApiResponse.GetWebhooks> {
     return this.get<ApiResponse.GetWebhooks>({
-      url: `/webhooks`,
+      url: "/webhooks",
     });
   }
 
@@ -147,8 +147,8 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     });
   }
 
-  getOrderReceipt(uuid: string): Promise<ApiResponse.ReceiveOrderReceipt> {
-    return this.get<ApiResponse.ReceiveOrderReceipt>({
+  getOrderReceipt(uuid: string): Promise<ApiResponse.GetOrderReceipt> {
+    return this.get<ApiResponse.GetOrderReceipt>({
       url: `/print/orders/${uuid}`,
     });
   }
@@ -160,8 +160,8 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     });
   }
 
-  getBarcodeCP(uuid: string): Promise<ApiResponse.ReceiveBarcodeCP> {
-    return this.get<ApiResponse.ReceiveBarcodeCP>({
+  getBarcodeCP(uuid: string): Promise<ApiResponse.GetBarcodeCP> {
+    return this.get<ApiResponse.GetBarcodeCP>({
       url: `/print/barcodes/${uuid}`,
     });
   }

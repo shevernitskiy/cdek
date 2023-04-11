@@ -1,5 +1,6 @@
 import { ApiError } from "../errors/api.ts";
 import { AuthError } from "../errors/auth.ts";
+import { HttpError } from "../errors/http.ts";
 import type { ApiResponse } from "../types/api.ts";
 import type { RequestInit, RequestMethod } from "../types/lib.ts";
 
@@ -62,7 +63,11 @@ export abstract class RestClient {
       });
 
       if (res.ok === false) {
-        throw new ApiError(await res.text(), { cause: `${res.status} ${res.statusText}, ${res.url}` });
+        if (res.headers.get("Content-Type") === "application/json") {
+          throw new ApiError(await res.json(), `${res.status} ${res.statusText}, ${res.url}`);
+        } else {
+          throw new HttpError("HttpError\n" + await res.text());
+        }
       }
 
       const data = await res.json();

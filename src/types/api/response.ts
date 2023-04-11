@@ -6,7 +6,7 @@ import type {
   Money,
   Package,
   Phone,
-  ReceivePrintFrom,
+  PrintForm,
   Request,
   Seller,
   Service,
@@ -38,8 +38,8 @@ export type GetRegions = {
 export type GetOrder = {
   entity?: {
     uuid: string;
-    is_return: boolean;
-    is_reverse: boolean;
+    is_return?: boolean;
+    is_reverse?: boolean;
     type: number;
     additional_order_types?: number;
     cdek_number?: string;
@@ -58,11 +58,11 @@ export type GetOrder = {
     sender: Contact;
     seller?: Seller;
     recipient: Contact;
-    from_location: Location;
+    from_location?: Location;
     to_location: Location;
     services?: Service[];
     packages: (Package & {
-      package_id: string;
+      package_id?: string;
       weight_volume?: number;
       weight_calc?: number;
     })[];
@@ -239,12 +239,12 @@ export type GetPickupPoints = {
   take_only: boolean;
   is_handout: boolean;
   is_reception: boolean;
-  is_dressing_room: string;
-  have_cashless: string;
+  is_dressing_room: boolean;
+  have_cashless: boolean;
   have_cash: boolean;
-  allowed_cod: string;
+  allowed_cod: boolean;
   site?: string;
-  office_image_list: {
+  office_image_list?: {
     url: string;
     number: number;
   }[];
@@ -292,9 +292,11 @@ export type CalculatorByTariff = {
   period_min: number;
   period_max: number;
   weight_calc: number;
+  calendar_min?: number;
+  calendar_max?: number;
   services?: Service[];
   total_sum: number;
-  currency: string;
+  currency?: string;
   errors?: Error[];
 };
 
@@ -331,8 +333,8 @@ export type GetFinishedOrders = {
   warnings?: Warning[];
 };
 
-export type ReceiveOrderReceipt = ReceivePrintFrom;
-export type ReceiveBarcodeCP = ReceivePrintFrom;
+export type GetOrderReceipt = PrintForm;
+export type GetBarcodeCP = PrintForm;
 
 export type AddWebhook = EntityOperation & {
   related_entities: {

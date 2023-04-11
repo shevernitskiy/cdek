@@ -1,5 +1,5 @@
 {
-  "importMap": "import_map.json",
+  "importMap": "./import_map.json",
   "lock": false,
   "tasks": {
     "start": "deno run -A ./run.ts",
