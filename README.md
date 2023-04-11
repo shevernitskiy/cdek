@@ -17,7 +17,7 @@ For Deno just import like cool kid.
 Example for Deno.
 
 ```ts
-import { Cdek } from "https://deno.land/x/cdek@v1.0.0/mod.ts";
+import { Cdek } from "https://deno.land/x/cdek@v1.0.1/mod.ts";
 
 const client = new Cdek({
   account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
