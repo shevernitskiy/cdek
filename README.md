@@ -43,10 +43,10 @@ try {
 }
 ```
 
-# Contribution
+## Contribution
 
 Pull request, issues and feedback are very welcome. Code style is formatted with `deno fmt`.
 
-# License
+## License
 
 Copyright 2023, shevernitskiy. MIT license.
