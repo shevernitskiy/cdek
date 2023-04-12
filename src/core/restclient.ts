@@ -70,9 +70,7 @@ export abstract class RestClient {
         }
       }
 
-      const data = await res.json();
-
-      return data as T;
+      return (await res.json()) as T;
     } catch (err) {
       throw err;
     }

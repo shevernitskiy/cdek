@@ -2,7 +2,6 @@ import { Mixin } from "ts-mixer";
 
 import { EventEmitter } from "./core/eventemitter.ts";
 import { RestClient } from "./core/restclient.ts";
-
 import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
 import type { InitOptions } from "./types/lib.ts";
 
