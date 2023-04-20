@@ -1,7 +1,7 @@
 # CDEK API client
 
-This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api methods. Library covers api structure
-pretty precise. Use official [docs](https://api-docs.cdek.ru/33828739.html) to read about methods.
+This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api structure pretty precise. Use official
+[docs](https://api-docs.cdek.ru/33828739.html) to read about methods.
 
 ## Installation
 
