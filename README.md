@@ -1,6 +1,7 @@
 # CDEK API client
 
-This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api methods.
+This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api methods. Library covers api structure
+pretty precise. Use official [docs](https://api-docs.cdek.ru/33828739.html) to read about methods.
 
 ## Installation
 
@@ -17,7 +18,7 @@ For Deno just import like cool kid.
 Example for Deno.
 
 ```ts
-import { Cdek, ApiError, HttpError } from "https://deno.land/x/cdek@v1.0.4/mod.ts";
+import { ApiError, Cdek, HttpError } from "https://deno.land/x/cdek@v1.0.4/mod.ts";
 
 const client = new Cdek({
   account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
@@ -30,8 +31,10 @@ try {
     weight: 100000,
     cost: 5000000,
   });
-
   console.log(data);
+
+  const data2 = await client.getOrderByUUID("72753033-1cf5-447c-a420-c29f4b488ac6");
+  console.log(data2);
 } catch (err) {
   if (err instanceof ApiError) { // returned in case of Api Error like invalid data, contains api message
     console.error(err.response);
