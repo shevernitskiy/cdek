@@ -1,5 +1,10 @@
 # CDEK API client
 
+[![npm](https://img.shields.io/npm/v/cdek?logo=npm&style=flat&labelColor=000)](https://www.npmjs.com/package/cdek)
+[![deno module](https://shield.deno.dev/x/cdek)](https://deno.land/x/cdek/mod.ts)
+![dependencies](https://img.shields.io/badge/dependencies-0-green?style=flat&labelColor=000)
+[![license](https://img.shields.io/github/license/shevernitskiy/amo?style=flat&labelColor=000)](https://github.com/shevernitskiy/cdek/blob/main/LICENSE)
+
 This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api structure pretty precise. Use official
 [docs](https://api-docs.cdek.ru/33828739.html) to read about methods.
 
@@ -7,7 +12,7 @@ This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all ap
 
 For Node.js
 
-```sh
+```powershell
 npm i cdek
 ```
 
