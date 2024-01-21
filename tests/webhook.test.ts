@@ -26,10 +26,7 @@ Deno.test("webhook should work properly", async () => {
 
   cdek.on("ORDER_STATUS", (ctx) => console.log(`order ${ctx.attributes.cdek_number} => status ${ctx.attributes.code}`));
 
-  const serve_close = new AbortController();
-
-  Deno.serve({
-    signal: serve_close.signal,
+  const server = Deno.serve({
     port: 4545,
   }, cdek.webhookHandler());
 
@@ -41,5 +38,5 @@ Deno.test("webhook should work properly", async () => {
   assertEquals(res.status, 200);
   assertEquals(await res.text(), "OK");
 
-  serve_close.abort();
+  await server.shutdown();
 });

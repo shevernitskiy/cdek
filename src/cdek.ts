@@ -2,6 +2,9 @@ import { Mixin } from "ts-mixer";
 
 import { EventEmitter } from "./core/eventemitter.ts";
 import { RestClient } from "./core/restclient.ts";
+import { ApiError } from "./errors/api.ts";
+import { AuthError } from "./errors/auth.ts";
+import { HttpError } from "./errors/http.ts";
 import type { ApiRequest, ApiResponse, ApiWebhook } from "./types/api.ts";
 import type { InitOptions } from "./types/lib.ts";
 
@@ -10,6 +13,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
   protected password: string;
   protected grant_type: string;
   protected url_base: string;
+  protected on_error?: ((error: Error | ApiError | AuthError | HttpError) => void | Promise<void>) | undefined;
 
   constructor(options: InitOptions) {
     super();
@@ -17,6 +21,7 @@ export class Cdek extends Mixin(RestClient, EventEmitter<ApiWebhook.EventMap>) {
     this.password = options.password;
     this.grant_type = options.grant_type ?? "client_credentials";
     this.url_base = options.url_base ?? "https://api.cdek.ru/v2";
+    this.on_error = options.on_error;
   }
 
   webhookHandler(): (request: Request) => Promise<Response> {

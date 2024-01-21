@@ -11,6 +11,7 @@ export abstract class RestClient {
   protected abstract password: string;
   protected abstract grant_type: string;
   protected abstract url_base: string;
+  protected abstract on_error?: (error: Error | ApiError | AuthError | HttpError) => void | Promise<void>;
 
   get token() {
     return this._token;
@@ -21,28 +22,24 @@ export abstract class RestClient {
   }
 
   private async auth(): Promise<void> {
-    try {
-      const res = await fetch(this.url_base + "/oauth/token?parameters", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          "grant_type": this.grant_type,
-          "client_id": this.account,
-          "client_secret": this.password,
-        }),
-      });
+    const res = await fetch(this.url_base + "/oauth/token?parameters", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        "grant_type": this.grant_type,
+        "client_id": this.account,
+        "client_secret": this.password,
+      }),
+    });
 
-      if (res.ok === false) {
-        throw new AuthError(await res.text(), { cause: `${res.status} ${res.statusText}` });
-      }
-
-      this._token = await res.json();
-      this._token_expire = Date.now() + (this.token?.expires_in ?? 3600) * 1000;
-    } catch (err) {
-      throw err;
+    if (res.ok === false) {
+      throw new AuthError(await res.text(), { cause: `${res.status} ${res.statusText}` });
     }
+
+    this._token = await res.json();
+    this._token_expire = Date.now() + (this.token?.expires_in ?? 3600) * 1000;
   }
 
   protected async request<T>(init: RequestInit & { method: RequestMethod }): Promise<T> {
@@ -72,7 +69,12 @@ export abstract class RestClient {
 
       return (await res.json()) as T;
     } catch (err) {
-      throw err;
+      if (this.on_error) {
+        this.on_error(err);
+        return null as T;
+      } else {
+        throw err;
+      }
     }
   }
 
