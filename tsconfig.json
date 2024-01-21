@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "./npm",
-    "declaration": true
+    "declaration": true,
+    "target": "ESNext",
+    "module": "CommonJS"
   },
   "include": ["./src/**/*", "./mod.ts"],
   "deno2node": {}
