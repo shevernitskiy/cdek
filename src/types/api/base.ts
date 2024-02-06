@@ -9,7 +9,7 @@ export type Warning = {
 };
 
 export type Money = {
-  value: number;
+  value?: number;
   vat_sum?: number;
   var_rate?: number;
 };
@@ -69,6 +69,11 @@ export type Service = {
   code: string;
   parameter?: string;
   sum?: number;
+  total_sum?: number;
+  discount_percent?: number;
+  discount_sum?: number;
+  vat_rate?: number;
+  vat_sum?: number;
 };
 
 export type Package = {
@@ -90,12 +95,21 @@ export type Item = {
   weight_gross?: number;
   amount: number;
   delivery_amount?: number;
+  marking?: string;
   name_i18n?: string;
   brand?: string;
   country_code?: string;
   material?: string;
   wifi_gsm?: true;
   url?: string;
+  return_item_detail?: ReturnItemDetails;
+  excise?: boolean;
+};
+
+export type ReturnItemDetails = {
+  direct_order_number: string;
+  direct_order_uuid: string;
+  direct_package_number: string;
 };
 
 export type Status = {

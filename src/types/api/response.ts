@@ -38,14 +38,17 @@ export type GetRegions = {
 export type GetOrder = {
   entity?: {
     uuid: string;
-    is_return?: boolean;
-    is_reverse?: boolean;
+    is_return: boolean;
+    is_reverse: boolean;
+    is_client_return: boolean;
     type: number;
     additional_order_types?: number;
     cdek_number?: string;
     number?: string;
     delivery_mode?: string;
     tariff_code: number;
+    items_cost_currency?: string;
+    recipient_currency?: string;
     comment?: string;
     developer_key?: string;
     shipment_point?: string;
@@ -81,6 +84,10 @@ export type GetOrder = {
       }[];
       delivery_sum: number;
       total_sum: number;
+      delivery_vat_rate?: number;
+      delivery_vat_sum?: number;
+      delivery_discount_percent?: number;
+      delivery_discount_sum?: number;
     };
     transacted_payment?: boolean;
     statuses: Status[];
@@ -96,6 +103,8 @@ export type GetOrder = {
         comment?: string;
       }[];
     };
+    planned_delivery_date: string;
+    keep_free_until?: string;
   };
   requests?: Request[];
   related_entities?: {
@@ -106,6 +115,7 @@ export type GetOrder = {
     date?: string;
     time_from?: string;
     time_to?: string;
+    create_time?: string;
   }[];
 };
 
