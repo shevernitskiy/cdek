@@ -32,9 +32,6 @@ const pakcage = {
   files: ["./src", "./mod.js", "./mod.d.ts"],
   main: "./mod.js",
   types: "./mod.d.ts",
-  dependencies: {
-    "ts-mixer": "6.0.3",
-  },
   keywords: [
     "cdek",
     "api",

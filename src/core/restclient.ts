@@ -2,17 +2,24 @@ import { ApiError } from "../errors/api.ts";
 import { AuthError } from "../errors/auth.ts";
 import { HttpError } from "../errors/http.ts";
 import type { ApiResponse } from "../types/api.ts";
-import type { RequestInit, RequestMethod } from "../types/lib.ts";
+import type { InitOptions, RequestInit, RequestMethod } from "../types/lib.ts";
 
-export abstract class RestClient {
-  protected _token?: ApiResponse.OAuth;
-  protected _token_expire?: number;
-  protected abstract account: string;
-  protected abstract password: string;
-  protected abstract grant_type: string;
-  protected abstract url_base: string;
-  protected abstract on_error?: (error: Error | ApiError | AuthError | HttpError) => void | Promise<void>;
+export class RestClient {
+  private _token?: ApiResponse.OAuth;
+  private _token_expire?: number;
+  private account: string;
+  private password: string;
+  private grant_type: string;
+  private url_base: string;
+  private on_error?: (error: Error | ApiError | AuthError | HttpError) => void | Promise<void>;
 
+  constructor(options: InitOptions) {
+    this.account = options.account;
+    this.password = options.password;
+    this.grant_type = options.grant_type ?? "client_credentials";
+    this.url_base = options.url_base ?? "https://api.cdek.ru/v2";
+    this.on_error = options.on_error;
+  }
   get token() {
     return this._token;
   }
@@ -42,7 +49,7 @@ export abstract class RestClient {
     this._token_expire = Date.now() + (this.token?.expires_in ?? 3600) * 1000;
   }
 
-  protected async request<T>(init: RequestInit & { method: RequestMethod }): Promise<T> {
+  private async request<T>(init: RequestInit & { method: RequestMethod }): Promise<T> {
     try {
       if (this.token_expire === undefined || Date.now() > this.token_expire) {
         await this.auth();
@@ -78,23 +85,23 @@ export abstract class RestClient {
     }
   }
 
-  protected get<T>(init: RequestInit): Promise<T> {
+  get<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "GET" });
   }
 
-  protected post<T>(init: RequestInit): Promise<T> {
+  post<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "POST" });
   }
 
-  protected put<T>(init: RequestInit): Promise<T> {
+  put<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "PUT" });
   }
 
-  protected patch<T>(init: RequestInit): Promise<T> {
+  patch<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "PATCH" });
   }
 
-  protected delete<T>(init: RequestInit): Promise<T> {
+  delete<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "DELETE" });
   }
 
