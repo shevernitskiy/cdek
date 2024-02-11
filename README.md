@@ -32,10 +32,7 @@ const client = new Cdek({
 });
 
 try {
-  const data = await client.calculatorCustoms({
-    weight: 100000,
-    cost: 5000000,
-  });
+  const data = await client.getRegions({ country_codes: ["TH"], size: 1 });
   console.log(data);
 
   const data2 = await client.getOrderByUUID("72753033-1cf5-447c-a420-c29f4b488ac6");
