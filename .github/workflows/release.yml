@@ -11,6 +11,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write # The OIDC ID token is used for authentication with JSR.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,10 +22,22 @@ jobs:
         with:
           deno-version: v1.x
 
-      - run: deno task npm ${{ inputs.version }}
+      - name: Bump project verison
+        run: deno task version ${{ inputs.version }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9.1.4
+        with:
+          author_name: github-actions[bot]
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          message: "bump version"
+
+      - name: Publish to JSR
+        run: deno publish
 
       - name: Publish to npm
         run: |
+          deno task npm ${{ inputs.version }}
           cd npm
           npm config set //registry.npmjs.org/:_authToken '${NPM_TOKEN}'
           npm publish --access public

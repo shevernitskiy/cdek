@@ -14,7 +14,7 @@ import type {
   Threshold,
   Warning,
 } from "./base.ts";
-import { UpdateType } from "./webhook.ts";
+import type { UpdateType } from "./webhook.ts";
 
 export type OAuth = {
   access_token: string;

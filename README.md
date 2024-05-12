@@ -2,7 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/cdek?logo=npm&style=flat&labelColor=000)](https://www.npmjs.com/package/cdek)
 [![deno module](https://shield.deno.dev/x/cdek)](https://deno.land/x/cdek/mod.ts)
-![dependencies](https://img.shields.io/badge/dependencies-1-green?style=flat&labelColor=000)
+[![JSR](https://jsr.io/badges/@shevernitskiy/cdek)](https://jsr.io/@shevernitskiy/cdek)
+![dependencies](https://img.shields.io/badge/dependencies-0-green?style=flat&labelColor=000)
 [![license](https://img.shields.io/github/license/shevernitskiy/amo?style=flat&labelColor=000)](https://github.com/shevernitskiy/cdek/blob/main/LICENSE)
 
 This is fully-typed simple wrapper for CDEK REST api v2. It covers almost all api structure pretty precise. Use official
@@ -16,14 +17,22 @@ For Node.js
 npm i cdek
 ```
 
-For Deno just import like cool kid.
+```
+npx jsr add @shevernitskiy/cdek
+```
+
+For Deno
+
+```powershell
+deno add @shevernitskiy/cdek
+```
 
 ## Usage
 
 Example for Deno.
 
 ```ts
-import { ApiError, Cdek, HttpError } from "https://deno.land/x/cdek@v1.0.4/mod.ts";
+import { ApiError, Cdek, HttpError } from "https://deno.land/x/cdek@1.0.9/mod.ts";
 
 const client = new Cdek({
   account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
