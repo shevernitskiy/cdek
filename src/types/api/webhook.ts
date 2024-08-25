@@ -73,7 +73,7 @@ export type UpdateOrderStatus = UpdateBase & {
       type: "direct_order" | "client_direct_order";
       cdek_number: string;
       uuid: string;
-    };
+    }[];
   };
 };
 
