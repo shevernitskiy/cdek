@@ -268,4 +268,9 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
       payload: { tariff_code: params.tariff_code },
     });
   }
+
+  // force to refresh token
+  refreshToken(): Promise<void> {
+    return this.rest.auth();
+  }
 }

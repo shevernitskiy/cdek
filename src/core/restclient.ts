@@ -28,7 +28,7 @@ export class RestClient {
     return this._token_expire;
   }
 
-  private async auth(): Promise<void> {
+  async auth(): Promise<void> {
     const res = await fetch(this.url_base + "/oauth/token?parameters", {
       method: "POST",
       headers: {
