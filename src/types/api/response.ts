@@ -358,13 +358,12 @@ export type GetWebhook = EntityOperation & {
     type: UpdateType;
   };
 };
-export type GetWebhooks = EntityOperation & {
-  entity?: {
-    uuid: string;
-    url: string;
-    type: UpdateType;
-  }[];
-};
+export type GetWebhooks = {
+  type: UpdateType;
+  uuid: string;
+  url: string;
+}[];
+
 export type DeleteWebhook = EntityOperation;
 export type AddOrder = EntityOperation;
 export type UpdateOrder = EntityOperation;
