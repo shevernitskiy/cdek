@@ -85,7 +85,7 @@ export class RestClient {
     }
   }
 
-  async download(url: string): Promise<ReadableStream<Uint8Array<ArrayBufferLike>>> {
+  async download(url: string): Promise<ReadableStream<Uint8Array>> {
     try {
       if (this.token_expire === undefined || Date.now() > this.token_expire) {
         await this.auth();
@@ -112,7 +112,7 @@ export class RestClient {
     } catch (err) {
       if (this.on_error) {
         this.on_error(err);
-        return ReadableStream.from<Uint8Array<ArrayBufferLike>>([]);
+        return ReadableStream.from<Uint8Array>([]);
       } else {
         throw err;
       }
