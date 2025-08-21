@@ -100,15 +100,15 @@ export class RestClient {
         },
       });
 
-      if (res.ok === false) {
+      if (res.ok === false || !res.body) {
         if (res.headers.get("Content-Type") === "application/json") {
           throw new ApiError(await res.json(), `${res.status} ${res.statusText}, ${res.url}`);
         } else {
           throw new HttpError("HttpError\n" + await res.text());
         }
+      } else {
+        return res.body as ReadableStream<Uint8Array>;
       }
-
-      return res.body;
     } catch (err) {
       if (this.on_error) {
         this.on_error(err);
