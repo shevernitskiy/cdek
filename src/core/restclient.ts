@@ -85,7 +85,7 @@ export class RestClient {
     }
   }
 
-  async download(url: string): Promise<ReadableStream<Uint8Array>> {
+  async download(url: string): Promise<ReadableStream<Uint8Array<ArrayBufferLike>>> | null {
     try {
       if (this.token_expire === undefined || Date.now() > this.token_expire) {
         await this.auth();
