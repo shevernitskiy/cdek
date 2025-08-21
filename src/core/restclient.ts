@@ -85,6 +85,40 @@ export class RestClient {
     }
   }
 
+  async download(url: string): Promise<ReadableStream<Uint8Array>> {
+    try {
+      if (this.token_expire === undefined || Date.now() > this.token_expire) {
+        await this.auth();
+      }
+
+      const target = `${this.url_base}${url}`;
+
+      const res = await fetch(target, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${this.token?.access_token}`,
+        },
+      });
+
+      if (res.ok === false) {
+        if (res.headers.get("Content-Type") === "application/json") {
+          throw new ApiError(await res.json(), `${res.status} ${res.statusText}, ${res.url}`);
+        } else {
+          throw new HttpError("HttpError\n" + await res.text());
+        }
+      }
+
+      return res.body;
+    } catch (err) {
+      if (this.on_error) {
+        this.on_error(err);
+        return null;
+      } else {
+        throw err;
+      }
+    }
+  }
+
   get<T>(init: RequestInit): Promise<T> {
     return this.request<T>({ ...init, method: "GET" });
   }
