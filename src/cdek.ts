@@ -282,11 +282,11 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     return this.rest.auth();
   }
 
-  get token(): string {
-    return this.rest.token.access_token;
+  get token(): string | undefined {
+    return this.rest.token?.access_token;
   }
 
-  get tokenExpire(): number {
+  get tokenExpire(): number | undefined {
     return this.rest.token_expire;
   }
 }
