@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: '24'
-          cache: 'npm'
+          cache: 'false'
 
       - name: Ensure npm >= 11.5.1
         run: npm install -g npm@latest
@@ -49,8 +49,6 @@ jobs:
           deno task npm ${{ inputs.version }}
           cd npm
           npm publish --access public
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
