@@ -22,11 +22,23 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
         case "PRINT_FORM":
           this.emit("PRINT_FORM", data as ApiWebhook.UpdatePrintForm);
           break;
-        case "DOWNLOAD_PHOTO":
-          this.emit("DOWNLOAD_PHOTO", data as ApiWebhook.UpdateDownloadPhoto);
-          break;
         case "PREALERT_CLOSED":
           this.emit("PREALERT_CLOSED", data as ApiWebhook.UpdatePrealertClosed);
+          break;
+        case "ACCOMPANYING_WAYBILL":
+          this.emit("ACCOMPANYING_WAYBILL", data as ApiWebhook.UpdateAccompanyingWaybill);
+          break;
+        case "DELIV_AGREEMENT":
+          this.emit("DELIV_AGREEMENT", data as ApiWebhook.UpdateDelivAgreement);
+          break;
+        case "DELIV_PROBLEM":
+          this.emit("DELIV_PROBLEM", data as ApiWebhook.UpdateDelivProblem);
+          break;
+        case "OFFICE_AVAILABILITY":
+          this.emit("OFFICE_AVAILABILITY", data as ApiWebhook.UpdateOfficeAvailability);
+          break;
+        case "ORDER_MODIFIED":
+          this.emit("ORDER_MODIFIED", data as ApiWebhook.UpdateOrderModified);
           break;
       }
 

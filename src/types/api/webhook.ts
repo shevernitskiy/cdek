@@ -1,8 +1,13 @@
 export type UpdateType =
   | "ORDER_STATUS"
   | "PRINT_FORM"
-  | "DOWNLOAD_PHOTO"
-  | "PREALERT_CLOSED";
+  // | "DOWNLOAD_PHOTO"
+  | "PREALERT_CLOSED"
+  | "ACCOMPANYING_WAYBILL"
+  | "OFFICE_AVAILABILITY"
+  | "ORDER_MODIFIED"
+  | "DELIV_AGREEMENT"
+  | "DELIV_PROBLEM";
 
 export type OrderStatus =
   | "CREATED"
@@ -62,24 +67,25 @@ export type UpdateOrderStatus = UpdateBase & {
     cdek_number: string;
     number?: string;
     status_code: string;
-    status_reason_code: string;
+    status_reason_code?: string;
     status_date_time: string;
-    city_name: string;
+    city_name?: string;
     city_code?: string;
     code: OrderStatus;
     is_reverse: boolean;
     is_client_return: boolean;
-    related_entities: {
+    related_entities?: {
       type: "direct_order" | "client_direct_order";
       cdek_number: string;
       uuid: string;
     }[];
+    deleted?: boolean;
   };
 };
 
 export type UpdatePrintForm = UpdateBase & {
   attributes: {
-    type: "waybill" | "receipt" | "barcode";
+    type: "WAYBILL" | "BARCODE";
     url: string;
   };
 };
@@ -99,9 +105,80 @@ export type UpdatePrealertClosed = UpdateBase & {
   };
 };
 
+export type UpdateAccompanyingWaybill = UpdateBase & {
+  attributes: {
+    cdek_number: string;
+    client_name: string;
+    flight_number?: string;
+    air_waybill_numbers?: string[];
+    vehicle_numbers?: string[];
+    vehicle_driver?: string;
+    planned_departure_date_time: string;
+  };
+};
+
+export type UpdateOfficeAvailability = UpdateBase & {
+  attributes: {
+    type: "AVAILABLE_OFFICE" | "UNAVAILABLE_OFFICE";
+    code: string;
+  };
+};
+
+export type UpdateOrderModified = UpdateBase & {
+  attributes: {
+    modification_type:
+      | "PLANED_DELIVERY_DATE_CHANGED"
+      | "DELIVERY_SUM_CHANGED"
+      | "DELIVERY_MODE_CHANGED";
+    new_value: {
+      type: "DATE" | "FLOAT" | "INTEGER";
+      value: string;
+    };
+  };
+};
+
+export type UpdateDelivAgreement = UpdateBase & {
+  attributes: {
+    delivery_uuid: string;
+    date_time: string;
+    cdek_number: string;
+    date?: string;
+    time_from?: string;
+    time_to?: string;
+    comment?: string;
+    source:
+      | "DAILY_CALL_TASK"
+      | "COURIER_SUPPORT"
+      | "EK5_INTEGRATION"
+      | "WEB_SITE"
+      | "MOBILE_APPLICATION"
+      | "SELF_CARE"
+      | "CABINET"
+      | "MIA_BOT"
+      | "WEB_SITE_BOT"
+      | "MESSENGER_BOT";
+    type: "DOOR" | "WAREHOUSE" | "POSTAMAT";
+    delivery_point?: string;
+  };
+};
+
+export type UpdateDelivProblem = UpdateBase & {
+  attributes: {
+    cdek_number: string;
+    number?: string;
+    code: string;
+    create_date: string;
+  };
+};
+
 export type EventMap = {
   ORDER_STATUS: [UpdateOrderStatus];
   PRINT_FORM: [UpdatePrintForm];
   DOWNLOAD_PHOTO: [UpdateDownloadPhoto];
   PREALERT_CLOSED: [UpdatePrealertClosed];
+  ACCOMPANYING_WAYBILL: [UpdateAccompanyingWaybill];
+  OFFICE_AVAILABILITY: [UpdateOfficeAvailability];
+  ORDER_MODIFIED: [UpdateOrderModified];
+  DELIV_AGREEMENT: [UpdateDelivAgreement];
+  DELIV_PROBLEM: [UpdateDelivProblem];
 };
