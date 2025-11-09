@@ -85,13 +85,13 @@ export class RestClient {
     }
   }
 
-  async download(url: string): Promise<ReadableStream<Uint8Array>> {
+  async download(url: string, useBaseURL = true): Promise<ReadableStream<Uint8Array>> {
     try {
       if (this.token_expire === undefined || Date.now() > this.token_expire) {
         await this.auth();
       }
 
-      const target = `${this.url_base}${url}`;
+      const target = `${useBaseURL ? this.url_base : ""}${url}`;
 
       const res = await fetch(target, {
         method: "GET",

@@ -144,8 +144,12 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  downloadOrderReceipt(uuid: string): Promise<ReadableStream<Uint8Array>> {
+  downloadOrderReceiptByUUID(uuid: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(`/print/orders/${uuid}.pdf`);
+  }
+
+  downloadOrderReceiptByURL(url: string): Promise<ReadableStream<Uint8Array>> {
+    return this.rest.download(url, false);
   }
 
   createBarcodeCP(params: ApiRequest.CreateBarcodeCP): Promise<ApiResponse.CreateBarcodeCP> {
@@ -161,8 +165,12 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  downloadBarcodeCP(uuid: string): Promise<ReadableStream<Uint8Array>> {
+  downloadBarcodeCPByUUID(uuid: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(`/print/barcodes/${uuid}.pdf`);
+  }
+
+  downloadBarcodeCPByURL(url: string): Promise<ReadableStream<Uint8Array>> {
+    return this.rest.download(url, false);
   }
 
   addDeliveryAppointment(params: ApiRequest.AddDeliveryAppointment): Promise<ApiResponse.AddDeliveryAppointment> {

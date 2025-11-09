@@ -13,14 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write # The OIDC ID token is used for authentication with JSR.
+      id-token: write # The OIDC ID token is used for authentication with JSR and npm.
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - uses: denoland/setup-deno@main
         with:
-          deno-version: v1.x
+          deno-version: v2.x
+
+      - name: Setup Node (needed for npm OIDC)
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Ensure npm >= 11.5.1
+        run: npm install -g npm@latest
 
       - name: Bump project verison
         run: deno task version ${{ inputs.version }}
@@ -39,7 +48,6 @@ jobs:
         run: |
           deno task npm ${{ inputs.version }}
           cd npm
-          npm config set //registry.npmjs.org/:_authToken '${NPM_TOKEN}'
           npm publish --access public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
