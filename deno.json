@@ -1,6 +1,6 @@
 {
   "name": "@shevernitskiy/cdek",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "exports": "./mod.ts",
   "lock": false,
   "tasks": {
