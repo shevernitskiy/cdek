@@ -1,11 +1,11 @@
-import { assertEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import { deepStrictEqual } from "node:assert";
 
 import { Cdek } from "../src/cdek.ts";
 
 Deno.test("checking code below", async () => {
   const client = new Cdek({
-    account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
-    password: "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG",
+    account: "wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP",
+    password: "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5",
     url_base: "https://api.edu.cdek.ru/v2",
   });
 
@@ -13,7 +13,7 @@ Deno.test("checking code below", async () => {
 
   console.log(data);
 
-  assertEquals(
+  deepStrictEqual(
     data[0],
     {
       country_code: "TH",

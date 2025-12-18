@@ -11,6 +11,10 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     this.rest = new RestClient(options);
   }
 
+  /**
+   * Обработчик входящих вебхуков.
+   * Парсит запрос, определяет тип события и вызывает соответствующий event listener.
+   */
   webhookHandler(): (request: Request) => Promise<Response> {
     return async (request: Request) => {
       const data = await request.json() as ApiWebhook.UpdateBase;
@@ -46,6 +50,9 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     };
   }
 
+  // --- LOCATION ---
+
+  /** Получение списка регионов */
   getRegions(params?: ApiRequest.GetRegions): Promise<ApiResponse.GetRegions[]> {
     return this.rest.get<ApiResponse.GetRegions[]>({
       url: "/location/regions",
@@ -53,6 +60,25 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение списка населенных пунктов */
+  getCities(params?: ApiRequest.GetCities): Promise<ApiResponse.GetCities[]> {
+    return this.rest.get<ApiResponse.GetCities[]>({
+      url: "/location/cities",
+      query: params,
+    });
+  }
+
+  /** Получение локации по координатам */
+  getCityByCoordinates(latitude: number, longitude: number): Promise<ApiResponse.GetCities> {
+    return this.rest.get<ApiResponse.GetCities>({
+      url: "/location/coordinates",
+      query: { latitude, longitude },
+    });
+  }
+
+  // --- WEBHOOKS ---
+
+  /** Добавление подписки на вебхуки */
   addWebhook(params?: ApiRequest.AddWebhook): Promise<ApiResponse.AddWebhook> {
     return this.rest.post<ApiResponse.AddWebhook>({
       url: "/webhooks",
@@ -60,24 +86,30 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о подписке по UUID */
   getWebhookByUUID(uuid: string): Promise<ApiResponse.GetWebhook> {
     return this.rest.get<ApiResponse.GetWebhook>({
       url: `/webhooks/${uuid}`,
     });
   }
 
+  /** Получение списка всех подписок */
   getWebhooks(): Promise<ApiResponse.GetWebhooks> {
     return this.rest.get<ApiResponse.GetWebhooks>({
       url: "/webhooks",
     });
   }
 
+  /** Удаление подписки на вебхуки */
   deleteWebhookByUUID(uuid: string): Promise<ApiResponse.DeleteWebhook> {
     return this.rest.delete<ApiResponse.DeleteWebhook>({
       url: `/webhooks/${uuid}`,
     });
   }
 
+  // --- ORDERS ---
+
+  /** Регистрация заказа */
   addOrder(params: ApiRequest.AddOrder): Promise<ApiResponse.AddOrder> {
     return this.rest.post<ApiResponse.AddOrder>({
       url: "/orders",
@@ -85,12 +117,14 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о заказе по UUID */
   getOrderByUUID(uuid: string): Promise<ApiResponse.GetOrder> {
     return this.rest.get<ApiResponse.GetOrder>({
       url: `/orders/${uuid}`,
     });
   }
 
+  /** Получение информации о заказе по номеру СДЭК */
   getOrderByCdekNumber(cdek_number: number): Promise<ApiResponse.GetOrder> {
     return this.rest.get<ApiResponse.GetOrder>({
       url: "/orders",
@@ -98,6 +132,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о заказе по номеру ИМ */
   getOrderByImNumber(im_number: number): Promise<ApiResponse.GetOrder> {
     return this.rest.get<ApiResponse.GetOrder>({
       url: "/orders",
@@ -105,6 +140,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Изменение заказа */
   updateOrder(params: ApiRequest.UpdateOrder): Promise<ApiResponse.UpdateOrder> {
     return this.rest.patch<ApiResponse.UpdateOrder>({
       url: "/orders",
@@ -112,18 +148,31 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Удаление заказа */
   deleteOrderByUUID(uuid: string): Promise<ApiResponse.DeleteOrder> {
     return this.rest.delete<ApiResponse.DeleteOrder>({
       url: `/orders/${uuid}`,
     });
   }
 
+  /** Регистрация отказа */
   addRefusal(order_uuid: string): Promise<ApiResponse.AddRefusal> {
-    return this.rest.post<ApiResponse.AddOrder>({
+    return this.rest.post<ApiResponse.AddRefusal>({
       url: `/orders/${order_uuid}/refusal`,
     });
   }
 
+  /** Регистрация клиентского возврата */
+  createClientReturn(params: ApiRequest.CreateClientReturn): Promise<ApiResponse.CreateClientReturn> {
+    return this.rest.post<ApiResponse.CreateClientReturn>({
+      url: `orders/${params.order_uuid}/clientReturn`,
+      payload: { tariff_code: params.tariff_code },
+    });
+  }
+
+  // --- INTAKES (Couriers) ---
+
+  /** Регистрация заявки на вызов курьера */
   addCourier(params: ApiRequest.AddCourier): Promise<ApiResponse.AddCourier> {
     return this.rest.post<ApiResponse.AddCourier>({
       url: "/intakes",
@@ -131,18 +180,30 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о заявке на вызов курьера */
   getCourierDetails(uuid: string): Promise<ApiResponse.GetCourierDetails> {
     return this.rest.get<ApiResponse.GetCourierDetails>({
       url: `/intakes/${uuid}`,
     });
   }
 
+  /** Удаление заявки на вызов курьера */
   deleteCourier(uuid: string): Promise<ApiResponse.DeleteCourier> {
     return this.rest.delete<ApiResponse.DeleteCourier>({
       url: `/intakes/${uuid}`,
     });
   }
 
+  /** Получение всех заявок по заказу */
+  getIntakes(orderUuid: string): Promise<ApiResponse.GetCourierDetails[]> {
+    return this.rest.get<ApiResponse.GetCourierDetails[]>({
+      url: `/orders/${orderUuid}/intakes`,
+    });
+  }
+
+  // --- PRINT ---
+
+  /** Формирование квитанции к заказу */
   createOrderReceipt(params: ApiRequest.CreateOrderReceipt): Promise<ApiResponse.CreateOrderReceipt> {
     return this.rest.post<ApiResponse.CreateOrderReceipt>({
       url: "/print/orders",
@@ -150,20 +211,24 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение квитанции к заказу */
   getOrderReceipt(uuid: string): Promise<ApiResponse.GetOrderReceipt> {
     return this.rest.get<ApiResponse.GetOrderReceipt>({
       url: `/print/orders/${uuid}`,
     });
   }
 
+  /** Скачивание квитанции по UUID */
   downloadOrderReceiptByUUID(uuid: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(`/print/orders/${uuid}.pdf`);
   }
 
+  /** Скачивание квитанции по URL */
   downloadOrderReceiptByURL(url: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(url, false);
   }
 
+  /** Формирование ШК места */
   createBarcodeCP(params: ApiRequest.CreateBarcodeCP): Promise<ApiResponse.CreateBarcodeCP> {
     return this.rest.post<ApiResponse.CreateBarcodeCP>({
       url: "/print/barcodes",
@@ -171,20 +236,26 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение ШК места */
   getBarcodeCP(uuid: string): Promise<ApiResponse.GetBarcodeCP> {
     return this.rest.get<ApiResponse.GetBarcodeCP>({
       url: `/print/barcodes/${uuid}`,
     });
   }
 
+  /** Скачивание ШК места по UUID */
   downloadBarcodeCPByUUID(uuid: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(`/print/barcodes/${uuid}.pdf`);
   }
 
+  /** Скачивание ШК места по URL */
   downloadBarcodeCPByURL(url: string): Promise<ReadableStream<Uint8Array>> {
     return this.rest.download(url, false);
   }
 
+  // --- DELIVERY (Appointment) ---
+
+  /** Регистрация договоренности о доставке */
   addDeliveryAppointment(params: ApiRequest.AddDeliveryAppointment): Promise<ApiResponse.AddDeliveryAppointment> {
     return this.rest.post<ApiResponse.AddDeliveryAppointment>({
       url: "/delivery",
@@ -192,12 +263,24 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о договоренности о доставке */
   getDeliveryAppointment(uuid: string): Promise<ApiResponse.GetDeliveryAppointment> {
     return this.rest.get<ApiResponse.GetDeliveryAppointment>({
       url: `/delivery/${uuid}`,
     });
   }
 
+  /** Получение интервалов доставки (для существующего заказа) */
+  getDeliveryIntervals(params: ApiRequest.GetDeliveryIntervals): Promise<ApiResponse.GetDeliveryIntervals> {
+    return this.rest.get<ApiResponse.GetDeliveryIntervals>({
+      url: "/delivery/intervals",
+      query: params,
+    });
+  }
+
+  // --- PREALERT ---
+
+  /** Регистрация преалерта */
   addPrealert(params: ApiRequest.AddPrealert): Promise<ApiResponse.AddPrealert> {
     return this.rest.post<ApiResponse.AddPrealert>({
       url: "/prealert",
@@ -205,12 +288,16 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о преалерте */
   getPrealert(uuid: string): Promise<ApiResponse.GetPrealert> {
     return this.rest.get<ApiResponse.GetPrealert>({
-      url: `/delivery/${uuid}`,
+      url: `/prealert/${uuid}`,
     });
   }
 
+  // --- INFO (Passport, Check, Registry) ---
+
+  /** Получение паспортных данных */
   getPassportData(params: ApiRequest.GetPassportData): Promise<ApiResponse.GetPassportData> {
     return this.rest.get<ApiResponse.GetPassportData>({
       url: "/passport",
@@ -218,6 +305,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о чеке */
   getCashboxCheck(params: ApiRequest.GetCashboxCheck): Promise<ApiResponse.GetCashboxCheck> {
     return this.rest.get<ApiResponse.GetCashboxCheck>({
       url: "/check",
@@ -225,6 +313,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение реестра наложенных платежей */
   getCashOnDeliveryRegistry(
     params: ApiRequest.GetCashOnDeliveryRegistry,
   ): Promise<ApiResponse.GetCashOnDeliveryRegistry> {
@@ -234,6 +323,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение информации о переводе наложенного платежа */
   getCashOnDeliveryTransfer(
     params: ApiRequest.GetCashOnDeliveryTransfer,
   ): Promise<ApiResponse.GetCashOnDeliveryTransfer> {
@@ -243,6 +333,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение списка ПВЗ */
   getPickupPoints(params?: ApiRequest.GetPickupPoints): Promise<ApiResponse.GetPickupPoints[]> {
     return this.rest.get<ApiResponse.GetPickupPoints[]>({
       url: "/deliverypoints",
@@ -250,13 +341,9 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  getCities(params?: ApiRequest.GetCities): Promise<ApiResponse.GetCities[]> {
-    return this.rest.get<ApiResponse.GetCities[]>({
-      url: "/location/cities",
-      query: params,
-    });
-  }
+  // --- CALCULATOR ---
 
+  /** Расчет по коду тарифа */
   calculatorByTariff(params: ApiRequest.CalculatorByTariff): Promise<ApiResponse.CalculatorByTariff> {
     return this.rest.post<ApiResponse.CalculatorByTariff>({
       url: "/calculator/tariff",
@@ -264,6 +351,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Расчет по доступным тарифам */
   calculatorByAvaibleTariffs(
     params: ApiRequest.CalculatorByAvaibleTariffs,
   ): Promise<ApiResponse.CalculatorByAvaibleTariffs> {
@@ -273,16 +361,37 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  /** @deprecated The method seems removed by CDEK without any changelog */
+  /** Получение списка всех доступных тарифов по договору */
+  availableTariffs(lang?: string): Promise<ApiResponse.CalculatorByAvaibleTariffs> {
+    return this.rest.get<ApiResponse.CalculatorByAvaibleTariffs>({
+      url: "/calculator/alltariffs",
+      query: lang ? { lang } : undefined,
+    });
+  }
+
+  /** Таможенный калькулятор (расчет пошлин) */
   calculatorCustoms(
     params: ApiRequest.CalculatorCustoms,
   ): Promise<ApiResponse.CalculatorCustoms> {
     return this.rest.post<ApiResponse.CalculatorCustoms>({
-      url: "/ddp",
+      url: "/calculator/customs",
       payload: params,
     });
   }
 
+  // --- REVERSE ---
+
+  /** Проверка доступности реверса */
+  checkReverseAvailability(params: ApiRequest.CheckReverseAvailability): Promise<void> {
+    return this.rest.post<void>({
+      url: "/reverse/availability",
+      payload: params,
+    });
+  }
+
+  // --- OTHER ---
+
+  /** Получение заказов с готовыми фото */
   getFinishedOrders(params: ApiRequest.GetFinishedOrders): Promise<ApiResponse.GetFinishedOrders> {
     return this.rest.post<ApiResponse.GetFinishedOrders>({
       url: "/photoDocument",
@@ -290,14 +399,7 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  createClientReturn(params: ApiRequest.CreateClientReturn): Promise<ApiResponse.CreateClientReturn> {
-    return this.rest.post<ApiResponse.CreateClientReturn>({
-      url: `orders/${params.order_uuid}/clientReturn`,
-      payload: { tariff_code: params.tariff_code },
-    });
-  }
-
-  // force to refresh token
+  /** Принудительное обновление токена */
   refreshToken(): Promise<void> {
     return this.rest.auth();
   }

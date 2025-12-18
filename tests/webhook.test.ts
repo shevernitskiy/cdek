@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
+import { deepStrictEqual } from "node:assert";
 
 import { Cdek } from "../src/cdek.ts";
 
@@ -19,8 +19,8 @@ const incoming_webhook = {
 
 Deno.test("webhook should work properly", async () => {
   const cdek = new Cdek({
-    account: "EMscd6r9JnFiQ3bLoyjJY6eM78JrJceI",
-    password: "PjLZkKBHEiLK3YsjtNrt3TGNG0ahs3kG",
+    account: "wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP",
+    password: "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5",
     url_base: "https://api.edu.cdek.ru/v2",
   });
 
@@ -35,8 +35,8 @@ Deno.test("webhook should work properly", async () => {
     body: JSON.stringify(incoming_webhook),
   });
 
-  assertEquals(res.status, 200);
-  assertEquals(await res.text(), "OK");
+  deepStrictEqual(res.status, 200);
+  deepStrictEqual(await res.text(), "OK");
 
   await server.shutdown();
 });
