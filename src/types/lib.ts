@@ -10,6 +10,7 @@ export type RequestInit = {
   url: string;
   query?: Record<string, any>;
   payload?: any;
+  headers?: Record<string, string>;
 };
 
 export type InitOptions = {

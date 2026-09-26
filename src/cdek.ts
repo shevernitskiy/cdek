@@ -26,6 +26,12 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
         case "PRINT_FORM":
           this.emit("PRINT_FORM", data as ApiWebhook.UpdatePrintForm);
           break;
+        case "DOWNLOAD_PHOTO":
+          this.emit("DOWNLOAD_PHOTO", data as ApiWebhook.UpdateDownloadPhoto);
+          break;
+        case "COURIER_INFO":
+          this.emit("COURIER_INFO", data as ApiWebhook.UpdateCourierInfo);
+          break;
         case "PREALERT_CLOSED":
           this.emit("PREALERT_CLOSED", data as ApiWebhook.UpdatePrealertClosed);
           break;
@@ -73,6 +79,22 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     return this.rest.get<ApiResponse.GetCities>({
       url: "/location/coordinates",
       query: { latitude, longitude },
+    });
+  }
+
+  /** Подбор локации по названию города */
+  getSuggestCities(params: ApiRequest.GetSuggestCities): Promise<ApiResponse.GetSuggestCities> {
+    return this.rest.get<ApiResponse.GetSuggestCities>({
+      url: "/location/suggest/cities",
+      query: params,
+    });
+  }
+
+  /** Получение списка почтовых индексов города */
+  getPostalCodes(params: ApiRequest.GetPostalCodes): Promise<ApiResponse.GetPostalCodes> {
+    return this.rest.get<ApiResponse.GetPostalCodes>({
+      url: "/location/postalcodes",
+      query: params,
     });
   }
 
@@ -201,6 +223,22 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение доступных дат вызова курьера для населенных пунктов */
+  getIntakeAvailableDays(params: ApiRequest.GetIntakeAvailableDays): Promise<ApiResponse.GetIntakeAvailableDays> {
+    return this.rest.post<ApiResponse.GetIntakeAvailableDays>({
+      url: "/intakes/availableDays",
+      payload: params,
+    });
+  }
+
+  /** Изменение статуса заявки на вызов курьера */
+  changeCourierStatus(params: ApiRequest.ChangeCourierStatus): Promise<ApiResponse.ChangeCourierStatus> {
+    return this.rest.patch<ApiResponse.ChangeCourierStatus>({
+      url: "/intakes",
+      payload: params,
+    });
+  }
+
   // --- PRINT ---
 
   /** Формирование квитанции к заказу */
@@ -278,6 +316,16 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Получение интервалов доставки до создания заказа */
+  getEstimatedDeliveryIntervals(
+    params: ApiRequest.GetEstimatedDeliveryIntervals,
+  ): Promise<ApiResponse.GetEstimatedDeliveryIntervals> {
+    return this.rest.post<ApiResponse.GetEstimatedDeliveryIntervals>({
+      url: "/delivery/estimatedIntervals",
+      payload: params,
+    });
+  }
+
   // --- PREALERT ---
 
   /** Регистрация преалерта */
@@ -323,20 +371,20 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
-  /** Получение информации о переводе наложенного платежа */
-  getCashOnDeliveryTransfer(
-    params: ApiRequest.GetCashOnDeliveryTransfer,
-  ): Promise<ApiResponse.GetCashOnDeliveryTransfer> {
-    return this.rest.get<ApiResponse.GetCashOnDeliveryTransfer>({
-      url: "/payment",
-      query: params,
-    });
-  }
-
   /** Получение списка ПВЗ */
   getPickupPoints(params?: ApiRequest.GetPickupPoints): Promise<ApiResponse.GetPickupPoints[]> {
     return this.rest.get<ApiResponse.GetPickupPoints[]>({
       url: "/deliverypoints",
+      query: params,
+    });
+  }
+
+  /** Получение списка ПВЗ внутри прямоугольника координат */
+  getPickupPointsByPolygons(
+    params: ApiRequest.GetPickupPointsByPolygons,
+  ): Promise<ApiResponse.GetPickupPoints[]> {
+    return this.rest.get<ApiResponse.GetPickupPoints[]>({
+      url: "/deliverypoints/byPolygons",
       query: params,
     });
   }
@@ -361,11 +409,21 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  /** Расчет по доступным тарифам и дополнительным услугам */
+  calculatorByTariffAndServices(
+    params: ApiRequest.CalculatorByTariffAndServices,
+  ): Promise<ApiResponse.CalculatorByTariffAndServices> {
+    return this.rest.post<ApiResponse.CalculatorByTariffAndServices>({
+      url: "/calculator/tariffAndService",
+      payload: params,
+    });
+  }
+
   /** Получение списка всех доступных тарифов по договору */
   availableTariffs(lang?: string): Promise<ApiResponse.CalculatorByAvaibleTariffs> {
     return this.rest.get<ApiResponse.CalculatorByAvaibleTariffs>({
       url: "/calculator/alltariffs",
-      query: lang ? { lang } : undefined,
+      headers: lang ? { "X-User-Lang": lang } : undefined,
     });
   }
 
@@ -389,6 +447,18 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
     });
   }
 
+  // --- INTERNATIONAL ---
+
+  /** Получение ограничений по международным заказам */
+  checkInternationalRestrictions(
+    params: ApiRequest.CheckInternationalRestrictions,
+  ): Promise<ApiResponse.CheckInternationalRestrictions> {
+    return this.rest.post<ApiResponse.CheckInternationalRestrictions>({
+      url: "/international/package/restrictions",
+      payload: params,
+    });
+  }
+
   // --- OTHER ---
 
   /** Получение заказов с готовыми фото */
@@ -397,6 +467,11 @@ export class Cdek extends EventEmitter<ApiWebhook.EventMap> {
       url: "/photoDocument",
       payload: params,
     });
+  }
+
+  /** Скачивание архива с фото документами по UUID */
+  downloadPhotoDocumentByUUID(uuid: string): Promise<ReadableStream<Uint8Array>> {
+    return this.rest.download(`/photoDocument/${uuid}`);
   }
 
   /** Принудительное обновление токена */

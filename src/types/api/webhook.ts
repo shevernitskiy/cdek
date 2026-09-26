@@ -6,7 +6,10 @@ export type UpdateType =
   | "ORDER_STATUS"
   /** Готовность печатной формы */
   | "PRINT_FORM"
-  // | "DOWNLOAD_PHOTO"
+  /** Готовность чека */
+  | "RECEIPT"
+  /** Готовность архива с фото документами */
+  | "DOWNLOAD_PHOTO"
   /** Получение информации о закрытии преалерта */
   | "PREALERT_CLOSED"
   /** Получение информации о транспорте для СНТ */
@@ -18,7 +21,9 @@ export type UpdateType =
   /** Получение информации об изменении договоренности о доставке */
   | "DELIV_AGREEMENT"
   /** Получение информации о проблемах доставки по заказу */
-  | "DELIV_PROBLEM";
+  | "DELIV_PROBLEM"
+  /** Получение информации о курьере, назначенном по заказу/заявке */
+  | "COURIER_INFO";
 
 /**
  * Код статуса заказа (см. Приложение 1)
@@ -181,7 +186,7 @@ export type UpdatePrintForm = UpdateBase & {
 };
 
 /**
- * Уведомление о готовности фото документов (старое событие, может быть неактуально, но поддерживается типами)
+ * Уведомление о готовности архива с фото документами
  */
 export type UpdateDownloadPhoto = UpdateBase & {
   /** Атрибуты события фото */
@@ -190,6 +195,26 @@ export type UpdateDownloadPhoto = UpdateBase & {
     cdek_number: string;
     /** Ссылка на скачивание архива */
     link: string;
+  };
+};
+
+/**
+ * Уведомление о курьере, назначенном по заказу/заявке.
+ * Состав атрибутов не детализирован в документации СДЭК.
+ */
+export type UpdateCourierInfo = UpdateBase & {
+  /** Атрибуты события информации о курьере */
+  attributes: {
+    /** Номер заказа СДЭК */
+    cdek_number?: string;
+    /** Номер заказа в ИС Клиента */
+    number?: string;
+    /** Номер заявки на вызов курьера */
+    intake_number?: string;
+    /** Имя курьера */
+    courier_name?: string;
+    /** Телефон курьера */
+    courier_phone?: string;
   };
 };
 
@@ -330,6 +355,7 @@ export type EventMap = {
   ORDER_STATUS: [UpdateOrderStatus];
   PRINT_FORM: [UpdatePrintForm];
   DOWNLOAD_PHOTO: [UpdateDownloadPhoto];
+  COURIER_INFO: [UpdateCourierInfo];
   PREALERT_CLOSED: [UpdatePrealertClosed];
   ACCOMPANYING_WAYBILL: [UpdateAccompanyingWaybill];
   OFFICE_AVAILABILITY: [UpdateOfficeAvailability];

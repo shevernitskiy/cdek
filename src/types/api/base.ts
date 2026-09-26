@@ -76,6 +76,8 @@ export type Location = {
   kladr_code?: string;
   /** Строка адреса */
   address?: string;
+  /** Тип контрагента (LEGAL_ENTITY - ЮЛ, INDIVIDUAL - ФЛ), используется в калькуляторе */
+  contragent_type?: string;
 };
 
 /**
@@ -220,6 +222,10 @@ export type Item = {
   seller?: Seller;
   /** УИН ювелирного изделия */
   jewel_uin?: string;
+  /** Код ТН ВЭД товара */
+  feacn_code?: string;
+  /** Признак бывшего в употреблении товара */
+  used?: boolean;
 };
 
 /**

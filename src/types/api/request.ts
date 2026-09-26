@@ -98,8 +98,10 @@ export type AddOrder = {
   services?: Service[];
   /** Список упаковок (мест) */
   packages: Package[];
-  /** Необходимость формирования печатной формы при создании (WAYBILL, BARCODE) */
-  print?: string;
+  /** Необходимость формирования печатной формы при создании */
+  print?: "WAYBILL" | "BARCODE";
+  /** Список идентификаторов дополнительных типов доставки */
+  delivery_types?: (string | number)[];
   /** Признак клиентского возврата (true/false) */
   is_client_return?: boolean;
   /** Признак необходимости создания реверсного заказа (новый механизм) */
@@ -188,6 +190,31 @@ export type AddCourier = {
   courier_power_of_attorney?: boolean;
   /** Курьеру необходим документ удостоверяющий личность (по умолчанию false) */
   courier_identity_card?: boolean;
+};
+
+/**
+ * Запрос доступных дат вызова курьера для населенных пунктов
+ */
+export type GetIntakeAvailableDays = {
+  /** Адрес отправления */
+  from_location: Location;
+  /** Дата, на которую запрашиваются доступные даты (yyyy-MM-dd) */
+  date?: string;
+};
+
+/**
+ * Запрос на изменение статуса заявки на вызов курьера
+ */
+export type ChangeCourierStatus = {
+  /** UUID заявки */
+  uuid: string;
+  /** Новый статус заявки */
+  status: {
+    /** Код статуса (например: PROCESSING_REQUIRED - требуется обработка заявки) */
+    code: string;
+    /** Дополнительный код статуса (например: CALL_REQUIRED - требуется звонок, DOC_REQUIRED - требуются документы) */
+    add_status: string;
+  };
 };
 
 /**
@@ -300,17 +327,11 @@ export type GetCashOnDeliveryRegistry = {
 };
 
 /**
- * Запрос информации о переводе наложенного платежа
- */
-export type GetCashOnDeliveryTransfer = {
-  /** Дата перевода (yyyy-MM-dd) */
-  date: string;
-};
-
-/**
  * Запрос списка ПВЗ (Пунктов выдачи заказов)
  */
 export type GetPickupPoints = {
+  /** Код ПВЗ */
+  code?: string;
   /** Почтовый индекс города */
   postal_code?: number;
   /** Код города СДЭК */
@@ -333,6 +354,12 @@ export type GetPickupPoints = {
   weight_max?: number;
   /** Минимальный вес, который принимает офис */
   weight_min?: number;
+  /** Длина габаритов упаковки (см), для подбора офисов по параметрам упаковки */
+  length?: number;
+  /** Ширина габаритов упаковки (см), для подбора офисов по параметрам упаковки */
+  width?: number;
+  /** Высота габаритов упаковки (см), для подбора офисов по параметрам упаковки */
+  height?: number;
   /** Локализация (rus/eng) */
   lang?: string;
   /** Является ли офис только пунктом выдачи (только выдают посылки) */
@@ -341,12 +368,54 @@ export type GetPickupPoints = {
   is_handout?: boolean;
   /** Есть ли в офисе приём заказов */
   is_reception?: boolean;
+  /** Работает ли офис с маркетплейсами */
+  is_marketplace?: boolean;
   /** ФИАС GUID */
   fias_guid?: string;
   /** Работает ли офис с LTL (сборным грузом) */
   is_ltl?: boolean;
+  /** Принимает ли офис сборные грузы от партнеров */
+  ltl_acceptance_partners?: boolean;
+  /** Выдает ли офис сборные грузы партнерам */
+  ltl_issuance_partners?: boolean;
   /** Наличие зоны фулфилмента */
   fulfillment?: boolean;
+  /** Ограничение выборки (размер страницы) */
+  size?: number;
+  /** Номер страницы выборки */
+  page?: number;
+};
+
+/**
+ * Запрос списка ПВЗ внутри прямоугольника координат
+ */
+export type GetPickupPointsByPolygons = {
+  /** Широта правого верхнего угла прямоугольника ([-90, 90]) */
+  latitude_right_top: number;
+  /** Долгота правого верхнего угла прямоугольника ([-180, 180]) */
+  longitude_right_top: number;
+  /** Широта левого нижнего угла прямоугольника ([-90, 90]) */
+  latitude_left_bottom: number;
+  /** Долгота левого нижнего угла прямоугольника ([-180, 180]) */
+  longitude_left_bottom: number;
+  /** Тип офиса: "PVZ" (склад), "POSTAMAT" (постамат), "ALL" (все) */
+  type?: string;
+  /** Уникальный идентификатор города */
+  city_uuid?: string;
+  /** Наличие терминала оплаты (true/false) */
+  have_cashless?: boolean;
+  /** Прием наличных (true/false) */
+  have_cash?: boolean;
+  /** Разрешен наложенный платеж (true/false) */
+  allowed_cod?: boolean;
+  /** Наличие примерочной (true/false) */
+  is_dressing_room?: boolean;
+  /** Максимальный вес, который может принять офис */
+  weight_max?: number;
+  /** Минимальный вес, который принимает офис */
+  weight_min?: number;
+  /** Локализация (rus/eng) */
+  lang?: string;
 };
 
 /**
@@ -382,6 +451,24 @@ export type GetCities = {
 };
 
 /**
+ * Запрос на подбор локации по названию города
+ */
+export type GetSuggestCities = {
+  /** Название населенного пункта */
+  name: string;
+  /** Код страны (ISO_3166-1_alpha-2) */
+  country_code?: string;
+};
+
+/**
+ * Запрос на получение списка почтовых индексов города
+ */
+export type GetPostalCodes = {
+  /** Код города СДЭК */
+  code: number;
+};
+
+/**
  * Калькулятор: расчет по коду тарифа
  */
 export type CalculatorByTariff = {
@@ -393,12 +480,18 @@ export type CalculatorByTariff = {
   additional_order_types?: number[];
   /** Валюта расчета */
   currency?: number;
+  /** Язык вывода информации (rus, eng, zho) */
+  lang?: "rus" | "eng" | "zho";
   /** Код тарифа */
   tariff_code: number;
   /** Город-отправитель */
   from_location: Location;
   /** Город-получатель */
   to_location: Location;
+  /** ПВЗ отправителя (для более точного расчета сроков) */
+  shipment_point?: string;
+  /** ПВЗ получателя (для более точного расчета сроков) */
+  delivery_point?: string;
   /** Дополнительные услуги */
   services?: Service[];
   /** Список мест (упаковок) */
@@ -432,6 +525,47 @@ export type CalculatorByAvaibleTariffs = {
   from_location: Location;
   /** Город-получатель */
   to_location: Location;
+  /** ПВЗ отправителя (для более точного расчета сроков) */
+  shipment_point?: string;
+  /** ПВЗ получателя (для более точного расчета сроков) */
+  delivery_point?: string;
+  /** Дополнительные услуги */
+  services?: Service[];
+  /** Список мест (упаковок) */
+  packages: {
+    /** Вес (в граммах) */
+    weight: number;
+    /** Длина (см) */
+    length?: number;
+    /** Ширина (см) */
+    width?: number;
+    /** Высота (см) */
+    height?: number;
+  }[];
+};
+
+/**
+ * Калькулятор: расчет по доступным тарифам и дополнительным услугам
+ */
+export type CalculatorByTariffAndServices = {
+  /** Дата и время планируемой передачи заказа (yyyy-MM-dd'T'HH:mm:ssZ) */
+  date?: string;
+  /** Тип заказа: 1 - ИМ, 2 - доставка */
+  type?: number;
+  /** Дополнительные типы заказа */
+  additional_order_types?: number[];
+  /** Валюта расчета */
+  currency?: number;
+  /** Язык вывода информации (rus, eng, zho) */
+  lang?: "rus" | "eng" | "zho";
+  /** Город-отправитель */
+  from_location: Location;
+  /** Город-получатель */
+  to_location: Location;
+  /** ПВЗ отправителя (для более точного расчета сроков) */
+  shipment_point?: string;
+  /** ПВЗ получателя (для более точного расчета сроков) */
+  delivery_point?: string;
   /** Дополнительные услуги */
   services?: Service[];
   /** Список мест (упаковок) */
@@ -471,7 +605,7 @@ export type GetFinishedOrders = {
     order_uuid?: string;
     /** Номер заказа СДЭК */
     cdek_number?: number;
-  };
+  }[];
 };
 
 /**
@@ -512,4 +646,58 @@ export type GetDeliveryIntervals = {
   cdek_number?: string;
   /** Идентификатор заказа (обязателен, если не передан cdek_number) */
   order_uuid?: string;
+};
+
+/**
+ * Запрос на получение интервалов доставки до создания заказа
+ */
+export type GetEstimatedDeliveryIntervals = {
+  /** Дата и время планируемой передачи заказа (yyyy-MM-dd'T'HH:mm:ssZ) */
+  date_time: string;
+  /** Адрес отправления */
+  from_location?: Location;
+  /** ПВЗ отправления */
+  shipment_point?: string;
+  /** Адрес получения */
+  to_location: Location;
+  /** Код тарифа */
+  tariff_code: number;
+  /** Дополнительные типы заказа */
+  additional_order_types?: number[];
+};
+
+/**
+ * Запрос на получение ограничений по международным заказам
+ */
+export type CheckInternationalRestrictions = {
+  /** Код тарифа */
+  tariff_code?: number;
+  /** Адрес отправления */
+  from_location?: Location;
+  /** Адрес получения */
+  to_location?: Location;
+  /** Список мест (упаковок) с описанием товаров */
+  packages?: {
+    /** Вес (в граммах) */
+    weight?: number;
+    /** Длина (см) */
+    length?: number;
+    /** Ширина (см) */
+    width?: number;
+    /** Высота (см) */
+    height?: number;
+    /** Список товаров в упаковке */
+    items?: {
+      /** Наименование товара */
+      name?: string;
+      /** Количество */
+      amount?: number;
+      /** Идентификатор товара в ИС Клиента */
+      item_id?: string;
+      /** Код ТН ВЭД товара */
+      feacn_code?: string;
+    }[];
+    /** Идентификатор упаковки */
+    package_id?: string;
+  }[];
 };

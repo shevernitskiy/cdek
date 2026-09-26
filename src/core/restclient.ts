@@ -62,6 +62,7 @@ export class RestClient {
         headers: {
           "Authorization": `Bearer ${this.token?.access_token}`,
           "Content-Type": "application/json",
+          ...init.headers,
         },
         body: init.payload ? JSON.stringify(init.payload) : undefined,
       });

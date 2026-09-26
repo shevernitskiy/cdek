@@ -437,23 +437,6 @@ export type GetCashOnDeliveryRegistry = {
 };
 
 /**
- * Информация о переводе наложенного платежа
- */
-export type GetCashOnDeliveryTransfer = {
-  /** Список заказов */
-  orders?: {
-    /** UUID заказа */
-    order_uuid: string;
-    /** Номер заказа СДЭК */
-    cdek_number: number;
-    /** Номер платежного поручения */
-    number: string;
-  }[];
-  /** Ошибки */
-  errors?: Error[];
-};
-
-/**
  * Информация о Пункте Выдачи Заказов (ПВЗ)
  */
 export type GetPickupPoints = {
@@ -492,12 +475,20 @@ export type GetPickupPoints = {
   is_reception: boolean;
   /** Есть примерочная */
   is_dressing_room: boolean;
+  /** Работает ли офис с маркетплейсами */
+  is_marketplace?: boolean;
+  /** Работает ли офис с LTL (сборным грузом) */
+  is_ltl?: boolean;
   /** Есть безналичный расчет */
   have_cashless: boolean;
   /** Есть прием наличных */
   have_cash: boolean;
+  /** Есть быстрая система оплаты */
+  have_fast_payment_system?: boolean;
   /** Разрешен наложенный платеж */
   allowed_cod: boolean;
+  /** Расстояние до офиса (в метрах, если передан поиск по координатам) */
+  distance?: number;
   /** Ссылка на сайт */
   site?: string;
   /** Список фото офиса */
@@ -515,7 +506,7 @@ export type GetPickupPoints = {
     time: string;
   }[];
   /** Исключения в графике работы */
-  work_time_exceptions?: {
+  work_time_exception_list?: {
     /** Дата исключения */
     date: string;
     /** Время работы в этот день */
@@ -527,6 +518,16 @@ export type GetPickupPoints = {
   weight_min: number;
   /** Максимальный вес (кг) */
   weight_max?: number;
+  /** Максимальная длина упаковки (см) */
+  length_max?: number;
+  /** Максимальная ширина упаковки (см) */
+  width_max?: number;
+  /** Максимальная высота упаковки (см) */
+  height_max?: number;
+  /** Принимает ли офис сборные грузы от партнеров */
+  ltl_acceptance_partners?: boolean;
+  /** Выдает ли офис сборные грузы партнерам */
+  ltl_issuance_partners?: boolean;
   /** Признак наличия фулфилмента */
   fulfillment: boolean;
   /** Габариты ячеек (для постаматов) */
@@ -538,6 +539,8 @@ export type GetPickupPoints = {
     /** Глубина (см) */
     depth: number;
   }[];
+  /** Статус офиса */
+  status?: "ACTIVE" | "CLOSED";
   /** Ошибки */
   errors?: Error[];
 };
@@ -548,6 +551,8 @@ export type GetPickupPoints = {
 export type GetCities = {
   /** Код города СДЭК */
   code: number;
+  /** Уникальный идентификатор города СДЭК */
+  city_uuid?: string;
   /** Название города */
   city: string;
   /** ФИАС GUID */
@@ -578,6 +583,30 @@ export type GetCities = {
   payment_limit: number;
   /** Ошибки */
   errors?: Error[];
+};
+
+/**
+ * Результат подбора локации по названию города
+ */
+export type GetSuggestCities = {
+  /** Уникальный идентификатор города СДЭК */
+  city_uuid: string;
+  /** Код города СДЭК */
+  code: number;
+  /** Полное название населенного пункта */
+  full_name: string;
+  /** Код страны (ISO_3166-1_alpha-2) */
+  country_code: string;
+}[];
+
+/**
+ * Список почтовых индексов города
+ */
+export type GetPostalCodes = {
+  /** Код города СДЭК */
+  code: number;
+  /** Список почтовых индексов города */
+  postal_codes: string[];
 };
 
 /**
@@ -681,6 +710,88 @@ export type GetFinishedOrders = {
     cdek_number: string;
     /** Ссылка на скачивание архива с фото */
     link: string;
+    /** Статус подготовки фото документов */
+    status?:
+      | "CREATED"
+      | "READY_FOR_EXECUTION"
+      | "IN_PROGRESS"
+      | "DONE"
+      | "SENT"
+      | "DELIVERED"
+      | "NOT_DELIVERED"
+      | "ERROR";
+    /** Дата создания запроса на фото документы */
+    create_date?: string;
+  }[];
+  /** Ошибки */
+  errors?: Error[];
+  /** Предупреждения */
+  warnings?: Warning[];
+};
+
+/**
+ * Доступные даты вызова курьера
+ */
+export type GetIntakeAvailableDays = {
+  /** Список доступных дат вызова курьера (yyyy-MM-dd) */
+  date?: string[];
+  /** Доступность вызова курьера без ограничения по дате */
+  all_days?: boolean;
+  /** Ошибки */
+  errors?: Error[];
+  /** Предупреждения */
+  warnings?: Warning[];
+};
+
+/**
+ * Ограничения по международным заказам
+ */
+export type CheckInternationalRestrictions = {
+  /** Список ограничений по упаковкам */
+  packages?: {
+    /** Идентификатор упаковки */
+    package_id?: string;
+    /** Статус ограничения */
+    status?: {
+      /** Код статуса */
+      code?: string;
+      /** Наименование статуса */
+      name?: string;
+      /** Причина ограничения */
+      reason?: {
+        /** Код причины */
+        code?: string;
+        /** Наименование причины */
+        name?: string;
+      };
+    };
+    /** Описание ограничения */
+    description?: string;
+    /** Ограничения по товарам в упаковке */
+    items?: {
+      /** Идентификатор товара */
+      item_id?: string;
+      /** Код ТН ВЭД товара */
+      feacn_code?: string;
+      /** Статус ограничения */
+      status?: {
+        /** Код статуса */
+        code?: string;
+        /** Наименование статуса */
+        name?: string;
+        /** Причина ограничения */
+        reason?: {
+          /** Код причины */
+          code?: string;
+          /** Наименование причины */
+          name?: string;
+        };
+      };
+      /** Текст ограничения */
+      limitations?: string;
+      /** Необходимые документы */
+      documents?: string;
+    }[];
   }[];
   /** Ошибки */
   errors?: Error[];
@@ -751,6 +862,82 @@ export type GetDeliveryIntervals = {
   errors?: Error[];
 };
 
+/**
+ * Доступные интервалы доставки до создания заказа
+ */
+export type GetEstimatedDeliveryIntervals = {
+  /** Список доступных дат */
+  date_intervals: {
+    /** Дата (yyyy-MM-dd) */
+    date: string;
+    /** Список временных интервалов для этой даты */
+    time_intervals: {
+      /** Время начала интервала (HH:mm) */
+      start_time: string;
+      /** Время окончания интервала (HH:mm) */
+      end_time: string;
+      /** Количество занятых слотов */
+      agreed_count?: number;
+      /** Общее количество слотов */
+      total_count?: number;
+    }[];
+  }[];
+  /** Ошибки */
+  errors?: Error[];
+};
+
+/** Результат расчета по доступным тарифам и дополнительным услугам */
+export type CalculatorByTariffAndServices = {
+  /** Список доступных тарифов */
+  tariff_codes: {
+    /** Код тарифа */
+    tariff_code: string;
+    /** Признак успешности расчета по тарифу */
+    status: string;
+    /** Результат расчета или ошибка расчета по тарифу */
+    result: {
+      /** Стоимость доставки */
+      delivery_sum: number;
+      /** Минимальный срок доставки (раб. дни) */
+      period_min: number;
+      /** Максимальный срок доставки (раб. дни) */
+      period_max: number;
+      /** Минимальный срок доставки (календарные дни) */
+      calendar_min?: number;
+      /** Максимальный срок доставки (календарные дни) */
+      calendar_max?: number;
+      /** Прогнозируемый диапазон дат доставки */
+      delivery_date_range?: {
+        /** Минимальная дата доставки (yyyy-MM-dd) */
+        min: string;
+        /** Максимальная дата доставки (yyyy-MM-dd) */
+        max: string;
+      };
+      /** Расчетный вес (гр) */
+      weight_calc: number;
+      /** Детализация стоимости услуг */
+      services?: Service[];
+      /** Итоговая стоимость */
+      total_sum: number;
+      /** Валюта расчета */
+      currency?: string;
+      /** Ошибки расчета */
+      errors?: Error[];
+    } | {
+      /** Код ошибки */
+      code: string;
+      /** Дополнительный код ошибки */
+      additional_code?: string;
+      /** Описание ошибки */
+      message: string;
+    };
+  }[];
+  /** Ошибки */
+  errors?: Error[];
+  /** Предупреждения */
+  warnings?: Warning[];
+};
+
 // Ответы на операции (используют общий тип EntityOperation)
 export type DeleteWebhook = EntityOperation;
 export type AddOrder = EntityOperation;
@@ -759,6 +946,15 @@ export type DeleteOrder = EntityOperation;
 export type AddRefusal = EntityOperation;
 export type AddCourier = EntityOperation;
 export type DeleteCourier = EntityOperation;
+export type ChangeCourierStatus = EntityOperation & {
+  /** Связанные сущности */
+  related_entities?: {
+    /** Тип сущности */
+    type: string;
+    /** UUID сущности */
+    uuid: string;
+  }[];
+};
 export type CreateOrderReceipt = EntityOperation;
 export type CreateBarcodeCP = EntityOperation;
 export type AddDeliveryAppointment = EntityOperation;
