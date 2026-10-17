@@ -1,4 +1,5 @@
-import { deepStrictEqual } from "node:assert";
+import test from "node:test";
+import assert from "node:assert/strict";
 
 import { Cdek } from "../src/cdek.ts";
 
@@ -17,26 +18,29 @@ const incoming_webhook = {
   },
 } as const;
 
-Deno.test("webhook should work properly", async () => {
+test("webhook should work properly", async () => {
   const cdek = new Cdek({
-    account: "wqGwiQx0gg8mLtiEKsUinjVSICCjtTEP",
-    password: "RmAmgvSgSl1yirlz9QupbzOJVqhCxcP5",
+    account: "account",
+    password: "password",
     url_base: "https://api.edu.cdek.ru/v2",
   });
 
-  cdek.on("ORDER_STATUS", (ctx) => console.log(`order ${ctx.attributes.cdek_number} => status ${ctx.attributes.code}`));
+  const received: string[] = [];
+  cdek.on("ORDER_STATUS", (ctx) => received.push(ctx.attributes.code));
 
-  const server = Deno.serve({
-    port: 4545,
-  }, cdek.webhookHandler());
+  const server = Bun.serve({
+    port: 0,
+    fetch: cdek.webhookHandler(),
+  });
 
-  const res = await fetch("http://localhost:4545/", {
+  const res = await fetch(`http://localhost:${server.port}/`, {
     method: "POST",
     body: JSON.stringify(incoming_webhook),
   });
 
-  deepStrictEqual(res.status, 200);
-  deepStrictEqual(await res.text(), "OK");
+  assert.equal(res.status, 200);
+  assert.equal(await res.text(), "OK");
+  assert.deepStrictEqual(received, [incoming_webhook.attributes.code]);
 
-  await server.shutdown();
+  server.stop(true);
 });

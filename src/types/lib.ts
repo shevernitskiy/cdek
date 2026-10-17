@@ -1,8 +1,7 @@
-// deno-lint-ignore-file
-import { ApiError } from "../errors/api.ts";
-import { AuthError } from "../errors/auth.ts";
-import { HttpError } from "../errors/http.ts";
-import { Request } from "./api/base.ts";
+import type { ApiError } from "../errors/api.ts";
+import type { AuthError } from "../errors/auth.ts";
+import type { HttpError } from "../errors/http.ts";
+import type { Request } from "./api/base.ts";
 
 export type RequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

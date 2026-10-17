@@ -78,7 +78,7 @@ export class RestClient {
       return (await res.json()) as T;
     } catch (err) {
       if (this.on_error) {
-        this.on_error(err);
+        this.on_error(err as Error);
         return null as T;
       } else {
         throw err;
@@ -112,8 +112,12 @@ export class RestClient {
       }
     } catch (err) {
       if (this.on_error) {
-        this.on_error(err);
-        return ReadableStream.from<Uint8Array>([]);
+        this.on_error(err as Error);
+        return new ReadableStream<Uint8Array>({
+          start(controller) {
+            controller.close();
+          },
+        });
       } else {
         throw err;
       }
@@ -140,7 +144,6 @@ export class RestClient {
     return this.request<T>({ ...init, method: "DELETE" });
   }
 
-  // deno-lint-ignore no-explicit-any
   private params(query: Record<string, any>): URLSearchParams {
     return new URLSearchParams(Object.entries(query).map<string[]>((item) => [item[0], item[1].toString()]));
   }

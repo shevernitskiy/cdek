@@ -1,0 +1,14 @@
+{
+  "name": "@shevernitskiy/cdek",
+  "version": "2.1.0",
+  "exports": "./mod.ts",
+  "exclude": [
+    "npm",
+    "examples",
+    "scripts",
+    "tests",
+    "run.ts",
+    "tsconfig.json",
+    "package.json"
+  ]
+}

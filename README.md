@@ -1,8 +1,8 @@
 # CDEK API Client
 
 [![npm](https://img.shields.io/npm/v/cdek?logo=npm&style=flat&labelColor=000)](https://www.npmjs.com/package/cdek)
-[![deno module](https://shield.deno.dev/x/cdek)](https://deno.land/x/cdek/mod.ts)
 [![JSR](https://jsr.io/badges/@shevernitskiy/cdek)](https://jsr.io/@shevernitskiy/cdek)
+![bun](https://img.shields.io/badge/bun-1.4.3-black?style=flat&logo=bun&logoColor=white)
 ![dependencies](https://img.shields.io/badge/dependencies-0-green?style=flat&labelColor=000)
 [![license](https://img.shields.io/github/license/shevernitskiy/amo?style=flat&labelColor=000)](https://github.com/shevernitskiy/cdek/blob/main/LICENSE)
 
@@ -20,11 +20,13 @@ yarn add cdek
 # or
 pnpm add cdek
 
-# Deno
-deno add @shevernitskiy/cdek
-
 # Bun
 bun add cdek
+# or, from JSR
+bun add jsr:@shevernitskiy/cdek
+
+# Deno (from JSR)
+deno add jsr:@shevernitskiy/cdek
 
 # JSR (any runtime)
 npx jsr add @shevernitskiy/cdek
@@ -325,6 +327,7 @@ pdfStream.pipe(file);
 ## 📦 Package Information
 
 - **Node.js**: `>= 18`
+- **Bun**: `>= 1.4` (developed and tested with Bun)
 - **TypeScript**: Full support with precise types
 - **Dependencies**: None (zero dependencies)
 - **Bundle size**: Minimal, tree-shakeable
@@ -336,9 +339,11 @@ Pull requests, issues, and feedback are very welcome! Please follow these guidel
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run tests: `deno test -A ./tests/`
-5. Format code: `deno fmt`
-6. Submit PR
+4. Install dependencies: `bun install`
+5. Run tests: `bun test`
+6. Type check: `bun run check`
+7. Build npm package: `bun run npm`
+8. Submit PR
 
 ## 📄 License
 
@@ -349,5 +354,5 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [CDEK API Documentation](https://apidoc.cdek.ru/)
 - [GitHub Repository](https://github.com/shevernitskiy/cdek)
 - [NPM Package](https://www.npmjs.com/package/cdek)
-- [Deno Module](https://deno.land/x/cdek)
+- [JSR Package](https://jsr.io/@shevernitskiy/cdek)
 

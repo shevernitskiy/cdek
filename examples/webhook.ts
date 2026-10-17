@@ -8,4 +8,4 @@ const client = new Cdek({
 
 client.on("ORDER_STATUS", (ctx) => console.log(ctx.attributes.code));
 
-Deno.serve({ port: 6767 }, client.webhookHandler());
+Bun.serve({ port: 6767, fetch: client.webhookHandler() });
